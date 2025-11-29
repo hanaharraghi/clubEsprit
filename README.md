@@ -1,7 +1,4 @@
-Voici un **README complet, clair et propre**, adapté à ton projet *Clubs ESPRIT* et conforme aux points demandés.
-Tu peux le copier directement dans ton fichier `README.md`.
 
----
 
 # 📚 Clubs ESPRIT – README
 
