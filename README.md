@@ -6,13 +6,15 @@ Tu peux le copier directement dans ton fichier `README.md`.
 # 📚 Clubs ESPRIT – README
 
 ## 👥 **Membres de l’équipe & Responsabilités**
+| Nom                   | Responsabilités                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Hana Harraghi**     | Pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Intégration Tailwind + design Cosmo Spirit.    |
+| **Houssem Chaouachi** | Co-développement des pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Navigation et logique JS. |
+| **Ilef Ben Taleb**    | Pages *Competition*, *Profile*, *Events*. UI/UX, interactions JS.                                    |
+| **Arwa Ben Amar**     | Pages *Competition*, *Profile*, *Events*. Accessibilité, animations CSS/JS.                          |
 
-| Nom                   | Responsabilités                                                                                                                              |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Hana Harraghi**     | Développement des pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Intégration responsive et cohérence du design Cosmo Spirit.          |
-| **Houssem Chaouachi** | Co-développement des pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Mise en place de la logique de navigation et de state management. |
-| **Ilef Ben Taleb**    | Développement des pages *Competition*, *Profile*, *Events*. Intégration des interactions et composants UI/UX.                                |
-| **Arwa Ben Amar**     | Développement des pages *Competition*, *Profile*, *Events*. Amélioration de l’accessibilité et animations UI.                                |
+
+
 
 ---
 
@@ -46,44 +48,56 @@ Fonctionnalités principales :
 
 ---
 
-## 🛠️ **Instructions pour exécuter le projet**
 
-### ✔️ **1. Cloner le projet**
+## 🛠️ **Instructions pour exécuter le projet**
+Aucune installation nécessaire 👇
+
+### ✔️ **1. Ouvrir le projet
 
 ```bash
-git clone https://github.com/username/club-esprit.git
-cd club-esprit
+index.html
+t
 ```
 
-### ✔️ **2. Installer les dépendances**
+### ✔️**2. Lancer un petit serveur local (optionnel mais recommandé)
 
 Si vous utilisez **npm** :
 
 ```bash
-npm install
+npx serve
+# ou
+live-server
+
 ```
-
-Ou **yarn** :
-
-```bash
-yarn install
-```
-
-### ✔️ **3. Lancer le serveur de développement**
-
-```bash
-npm run dev
-```
+Puis accéder à :
+👉 http://localhost:3000 (selon l’outil)
 
 
 
-### ✔️ **4. Technologies utilisées**
 
-* Framework : **React / Next.js** (ou autre selon ton projet)
-* Style : **TailwindCSS**, Material Design 3
-* Icons : **Lucide / Material Icons**
-* State management : **Context / Redux / Zustand**
-* UI animations : CSS transitions / Framer Motion
+
+### 🧱 **4. Technologies utilisées**
+
+###✔️ Frontend
+HTML5
+
+TailwindCSS
+
+JavaScript (Vanilla JS)
+
+###✔️ Design
+Palette Cosmo Spirit
+
+Material Design 3 inspiration
+
+Animations CSS & JS (no frameworks)
+
+###✔️ Outils
+VS Code
+
+Live Server / Serve
+
+Git & GitHub
 
 ---
 
@@ -107,53 +121,44 @@ npm run dev
 
 ## 🧠 **Problèmes rencontrés & Solutions apportées**
 
-### 🔹 1. **Manque de cohérence visuelle entre les pages**
+### 🔹 1. **Organisation des fichiers**
 
 **Solution :**
 
-* Mise en place du *Cosmo Spirit Design System*
-* Palette définie
-* Composants réutilisables (Card, Button, Badge, Input, etc.)
+*  structure /pages, /assets, /js.
 
 ---
 
-### 🔹 2. **Problèmes de responsive sur mobile et tablette**
+### 🔹 2. **Responsive complexe avec beaucoup de cartes**
 
 **Solution :**
 
-* Mise en place de breakpoints Tailwind
-* Utilisation d’un layout en grilles responsive
-* Tests sur plusieurs tailles d’écran
+* Grid Tailwind + breakpoints.
 
 ---
 
-### 🔹 3. **Filtrage des clubs non fonctionnel**
+### 🔹 3. **odal du profil de club mal centrée**
 
 **Solution :**
 
-* Optimisation de la logique des filtres
-* Implémentation d’un tri server-side ou client-side efficace
+* fixed + flex + backdrop blur.
 
 ---
 
-### 🔹 4. **Intégration du chat (Messenger intégré)**
+### 🔹 4. **Messenger popup**
 
-**Problème:** Fenêtre de chat qui s’affichait mal sur mobile
+
 **Solution:**
 
-* Création d’un composant modal glissant verticalement
-* Animation "slide-up" + repositionnement fixe en bas
-* Optimisation de l’UI minimaliste
+*  JS toggle + animation scale.
 
 ---
 
-### 🔹 5. **Performance du rendu de la grille de clubs**
+### 🔹 5. **Hover & Glow Cosmo Spirit**
 
 **Solution :**
 
-* Pagination ou lazy loading
-* Optimisation des images (logos)
-* Memorisation des composants (React.memo)
+* Tailwind + transition + shadow + scale.
 
 ---
 
@@ -169,7 +174,10 @@ npm run dev
 
 Note : Pour le background semi-transparent, tu peux utiliser :
 en Tailwind → bg-[#6F1425]/[0.07]
+```bash
 
+<div class="bg-[#6F1425]/[0.07]">
+```
 
 
 ---
