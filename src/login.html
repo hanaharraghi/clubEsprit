@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubs ESPRIT - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-100 via-white to-blue-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Card Container -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8">
+            <!-- Logo and Header -->
+            <div class="flex flex-col items-center mb-8">
+                <img src="club.png" alt="Club Logo" class="w-32 h-32 md:w-40 md:h-40 object-contain mb-4" />
+                <h1 class="text-2xl font-bold text-gray-800">Welcome Back</h1>
+                <p class="text-gray-500 text-sm mt-1">Sign in to your Clubs ESPRIT account</p>
+            </div>
+            <!-- Divider -->
+            <div class="flex items-center mb-6">
+                <div class="flex-1 border-t border-gray-200"></div>
+                <span class="px-3 text-sm text-gray-500"> continue with email</span>
+                <div class="flex-1 border-t border-gray-200"></div>
+            </div>
+
+            <!-- Form -->
+            <form class="space-y-4">
+                <!-- Email Field -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                    <div class="relative">
+                        <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <input type="email" placeholder="student@esprit.tn" class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition" value="student@esprit.tn">
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                    <div class="relative">
+                        <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <input type="password" placeholder="Enter your password" class="w-full pl-10 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition">
+                        <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember & Forgot Password -->
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                        <span class="text-gray-600">Remember me</span>
+                    </label>
+                    <a href="#" class="text-purple-600 hover:text-purple-700 font-medium">Forgot password?</a>
+                </div>
+
+                <!-- Sign In Button -->
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-[#6F1425] to-[#FECB10] text-white font-semibold rounded-lg hover:from-[#6F1425] hover:to-[#FECB10] transition shadow-lg mt-6">
+                    Sign In
+                </button>
+                    
+                
+            </form>
+        </div>
+    </div>
+</body>
+</html>

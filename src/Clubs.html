@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clubs Esprit - Mockup</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary: #6F1425;
+      --accent: #FECB10;
+      --bg: #f8f3f3;
+      --card: #ffffff;
+    }
+
+    /* subtle vertical stripes like the mockup */
+    body{
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background-color: var(--bg);
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(111,20,37,0.04) 0px,
+        rgba(111,20,37,0.04) 64px,
+        transparent 64px,
+        transparent 128px
+      );
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* small aesthetic helpers */
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7));
+      backdrop-filter: blur(6px);
+    }
+
+    .soft-shadow {
+      box-shadow: 0 6px 18px rgba(111,20,37,0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="w-full bg-[var(--primary)] text-white sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between h-20 px-6 md:px-10">
+      
+      
+            <!-- larger placeholder logo -->
+            <img src="club.png" alt="Club Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain" />
+        
+       
+
+      <nav class="hidden md:flex gap-8 items-center font-medium">
+        <a class="text-sm hover:text-[var(--accent)]">Home</a>
+        <a class="text-sm text-[var(--accent)]">Clubs</a>
+        <a class="text-sm hover:text-[var(--accent)]">Events</a>
+        <a class="text-sm hover:text-[var(--accent)]">Calendar</a>
+        <a class="text-sm hover:text-[var(--accent)]">Competition</a>
+        <a class="text-sm hover:text-[var(--accent)]">My Clubs</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        
+       <!--profile-->
+        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"> <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1118.879 6.196 9 9 0 015.12 17.804z" /></svg> </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH + FILTERS -->
+  <div class="max-w-7xl mx-auto px-6 md:px-10 mt-6">
+    <div class="flex flex-col items-center">
+      <div class="w-full md:w-3/5">
+        <div class="flex items-center bg-white rounded-full shadow-lg px-4 py-3">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M9.5 17a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+          <input class="ml-3 w-full text-sm placeholder-gray-500 outline-none" placeholder="Find clubs, events, and communities..." />
+          <button class="ml-3 rounded-full p-2 glass soft-shadow">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M10.325 4.317a8 8 0 016.934 6.934M3 12h18"/></svg>
+          </button>
+        </div>
+
+        <!-- TAGS -->
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button class="px-4 py-1 rounded-full text-sm bg-[var(--primary)] text-white">All</button>
+          <button class="px-4 py-1 rounded-full text-sm border border-[var(--primary)] text-[var(--primary)] bg-white">Technology</button>
+          <button class="px-4 py-1 rounded-full text-sm border border-[var(--primary)] text-[var(--primary)] bg-white">Culture</button>
+          <button class="px-4 py-1 rounded-full text-sm border border-[var(--primary)] text-[var(--primary)] bg-white">Sports</button>
+          <button class="px-4 py-1 rounded-full text-sm border border-[var(--primary)] text-[var(--primary)] bg-white">Arts</button>
+          <button class="px-4 py-1 rounded-full text-sm border border-[var(--primary)] text-[var(--primary)] bg-white">Volunteering</button>
+          <button class="px-4 py-1 rounded-full text-sm border border-[var(--primary)] text-[var(--primary)] bg-white">Science</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <main class="max-w-7xl mx-auto px-6 md:px-10 mt-8">
+    <div class="grid grid-cols-12 gap-8">
+
+      <!-- LEFT: Clubs list (8/12) -->
+      <section class="col-span-12 lg:col-span-8">
+        <h3 class="text-[20px] font-bold text-[var(--primary)] mb-4">Discover Clubs</h3>
+
+        <!-- Cards grid: two columns -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Card 1 -->
+          <article class="bg-white rounded-xl soft-shadow p-4 relative overflow-hidden">
+            <div class="flex gap-4">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=120&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" class="w-16 h-16 rounded-full object-cover shadow-sm" alt="avatar" />
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 class="text-[var(--primary)] font-semibold">Tech Innovators</h4>
+                    <p class="text-xs text-gray-600 mt-1">Exploring cutting-edge technologies and building innovative solutions for students.</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs bg-red-50 text-[var(--primary)] px-2 py-0.5 rounded-full">Technology</span>
+                    <button class="text-[var(--primary)] text-xl leading-none">♡</button>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="px-3 py-1.5 bg-[var(--primary)] text-white text-sm rounded-md">View Profile</button>
+                  <button class="px-3 py-1.5 border border-[var(--primary)] text-[var(--primary)] text-sm rounded-md">Join Club</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="bg-white rounded-xl soft-shadow p-4 relative overflow-hidden">
+            <div class="flex gap-4">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=120&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" class="w-16 h-16 rounded-full object-cover shadow-sm" alt="avatar" />
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 class="text-[var(--primary)] font-semibold">Cultural Exchange</h4>
+                    <p class="text-xs text-gray-600 mt-1">Celebrating diversity via cultural events, language exchange, and international nights.</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs bg-red-50 text-[var(--primary)] px-2 py-0.5 rounded-full">Culture</span>
+                    <button class="text-[var(--primary)] text-xl leading-none">♡</button>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="px-3 py-1.5 bg-[var(--primary)] text-white text-sm rounded-md">View Profile</button>
+                  <button class="px-3 py-1.5 border border-[var(--primary)] text-[var(--primary)] text-sm rounded-md">Join Club</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="bg-white rounded-xl soft-shadow p-4 relative overflow-hidden">
+            <div class="flex gap-4">
+              <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=120&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" class="w-16 h-16 rounded-full object-cover shadow-sm" alt="avatar" />
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 class="text-[var(--primary)] font-semibold">Sport Excellence</h4>
+                    <p class="text-xs text-gray-600 mt-1">Training champions and promoting physical fitness through campus sports activities.</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs bg-red-50 text-[var(--primary)] px-2 py-0.5 rounded-full">Sports</span>
+                    <button class="text-[var(--primary)] text-xl leading-none">♡</button>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="px-3 py-1.5 bg-[var(--primary)] text-white text-sm rounded-md">View Profile</button>
+                  <button class="px-3 py-1.5 border border-[var(--primary)] text-[var(--primary)] text-sm rounded-md">Join Club</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="bg-white rounded-xl soft-shadow p-4 relative overflow-hidden">
+            <div class="flex gap-4">
+              <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=120&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" class="w-16 h-16 rounded-full object-cover shadow-sm" alt="avatar" />
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 class="text-[var(--primary)] font-semibold">Art Collective</h4>
+                    <p class="text-xs text-gray-600 mt-1">A creative space for artists to express themselves through painting, sculpture, and more.</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs bg-red-50 text-[var(--primary)] px-2 py-0.5 rounded-full">Arts</span>
+                    <button class="text-[var(--primary)] text-xl leading-none">♡</button>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="px-3 py-1.5 bg-[var(--primary)] text-white text-sm rounded-md">View Profile</button>
+                  <button class="px-3 py-1.5 border border-[var(--primary)] text-[var(--primary)] text-sm rounded-md">Join Club</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Add more cards repeating the same structure to match length -->
+          <!-- We'll duplicate a few more to match the visual density -->
+          <article class="bg-white rounded-xl soft-shadow p-4 relative overflow-hidden">
+            <div class="flex gap-4">
+              <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=120&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" class="w-16 h-16 rounded-full object-cover shadow-sm" alt="avatar" />
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 class="text-[var(--primary)] font-semibold">Code Warriors</h4>
+                    <p class="text-xs text-gray-600 mt-1">Competitive programming & algorithm mastery for aspiring software engineers.</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs bg-red-50 text-[var(--primary)] px-2 py-0.5 rounded-full">Technology</span>
+                    <button class="text-[var(--primary)] text-xl leading-none">♡</button>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="px-3 py-1.5 bg-[var(--primary)] text-white text-sm rounded-md">View Profile</button>
+                  <button class="px-3 py-1.5 border border-[var(--primary)] text-[var(--primary)] text-sm rounded-md">Join Club</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="bg-white rounded-xl soft-shadow p-4 relative overflow-hidden">
+            <div class="flex gap-4">
+              <img src="https://images.unsplash.com/photo-1511376777868-611b54f68947?q=80&w=120&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" class="w-16 h-16 rounded-full object-cover shadow-sm" alt="avatar" />
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 class="text-[var(--primary)] font-semibold">Music Harmony</h4>
+                    <p class="text-xs text-gray-600 mt-1">From classical to contemporary — exploring music through performance and collaboration.</p>
+                  </div>
+                  <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs bg-red-50 text-[var(--primary)] px-2 py-0.5 rounded-full">Arts</span>
+                    <button class="text-[var(--primary)] text-xl leading-none">♡</button>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                  <button class="px-3 py-1.5 bg-[var(--primary)] text-white text-sm rounded-md">View Profile</button>
+                  <button class="px-3 py-1.5 border border-[var(--primary)] text-[var(--primary)] text-sm rounded-md">Join Club</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- RIGHT: Sidebar (4/12) -->
+      <aside class="col-span-12 lg:col-span-4 space-y-6">
+
+        <!-- Top Clubs card with gradient -->
+        <div class="rounded-xl overflow-hidden soft-shadow">
+          <div class="p-5 bg-gradient-to-b from-[var(--primary)] to-[#7f1b2a] text-white">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-md bg-[var(--accent)] flex items-center justify-center text-[var(--primary)] font-bold">🏆</div>
+                <div>
+                  <h4 class="font-semibold">Top Clubs This Month</h4>
+                  <div class="text-xs opacity-80">Most active & most joined</div>
+                </div>
+              </div>
+              <div class="opacity-90">...</div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-white">
+            <!-- Club row -->
+            <div class="flex items-center gap-3 mb-4">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="club"/>
+              <div class="flex-1">
+                <div class="flex justify-between">
+                  <div class="text-sm font-semibold text-[var(--primary)]">Tech Innovators</div>
+                  <div class="text-xs text-gray-500">1.2k</div>
+                </div>
+                <div class="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-[var(--primary)] w-3/4 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Club row 2 -->
+            <div class="flex items-center gap-3 mb-4">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="club"/>
+              <div class="flex-1">
+                <div class="flex justify-between">
+                  <div class="text-sm font-semibold text-[var(--primary)]">Cultural Exchange</div>
+                  <div class="text-xs text-gray-500">840</div>
+                </div>
+                <div class="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-[var(--primary)] w-1/2 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Club row 3 -->
+            <div class="flex items-center gap-3">
+              <img class="w-10 h-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=100&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="club"/>
+              <div class="flex-1">
+                <div class="flex justify-between">
+                  <div class="text-sm font-semibold text-[var(--primary)]">Sports Excellence</div>
+                  <div class="text-xs text-gray-500">420</div>
+                </div>
+                <div class="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-[var(--primary)] w-1/4 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Events / reminder cards -->
+        <div class="rounded-xl bg-white soft-shadow p-5">
+          <h4 class="font-semibold text-[var(--primary)] mb-3">Tech Talk: AI in Education</h4>
+          <p class="text-xs text-gray-500">Nov 15, 2025 • 3:00 PM</p>
+
+          <div class="flex items-center gap-3 mt-4">
+            <input type="checkbox" id="r1" class="accent-[var(--primary)]" />
+            <label for="r1" class="text-sm text-gray-700">Remind me</label>
+            <div class="flex-1"></div>
+            <button class="px-4 py-2 bg-[var(--primary)] text-white rounded-md text-sm">set reminder</button>
+          </div>
+
+        </div>
+
+        <!-- small second event -->
+        <div class="rounded-xl bg-white soft-shadow p-5">
+          <h4 class="font-semibold text-[var(--primary)] mb-3">Panel: Student Leadership</h4>
+          <p class="text-xs text-gray-500">Nov 20, 2025 • 5:00 PM</p>
+
+          <div class="flex items-center gap-3 mt-4">
+            <input type="checkbox" id="r2" class="accent-[var(--primary)]" />
+            <label for="r2" class="text-sm text-gray-700">Remind me</label>
+            <div class="flex-1"></div>
+            <button class="px-4 py-2 bg-[var(--primary)] text-white rounded-md text-sm">set reminder</button>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-12 bg-[var(--primary)] text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-12 h-12 rounded-md bg-[var(--accent)] flex items-center justify-center text-[var(--primary)] font-bold">CE</div>
+          <div>
+            <div class="font-bold">CLUBS ESPRIT</div>
+            <div class="text-xs opacity-80">Connecting students with amazing clubs and communities at ESPRIT University.</div>
+          </div>
+        </div>
+        <div class="text-xs opacity-80 mt-3">© 2025 Clubs ESPRIT. All rights reserved.</div>
+      </div>
+
+      <div>
+        <div class="font-semibold mb-3">About</div>
+        <ul class="text-sm space-y-2 opacity-90">
+          <li>Our Story</li>
+          <li>Team</li>
+          <li>Careers</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-semibold mb-3">Contact</div>
+        <ul class="text-sm space-y-2 opacity-90">
+          <li>Support</li>
+          <li>Feedback</li>
+          <li>Partners</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-semibold mb-3">Legal</div>
+        <ul class="text-sm space-y-2 opacity-90">
+          <li>Terms of Service</li>
+          <li>Privacy Policy</li>
+          <li>Cookies</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- small script to duplicate more cards if you want to visualize a longer page (optional) -->
+  <script>
+    // optional: clone existing cards to create a longer list similar to your mockup
+    // (comment out if you don't want duplication)
+    (function(){
+      const grid = document.querySelector('main .grid.grid-cols-1.md\\:grid-cols-2');
+      if(!grid) return;
+      // clone first 3 cards to reach visual density
+      const orig = Array.from(grid.children).slice(0,6);
+      for(let i=0;i<4;i++){
+        orig.forEach(n => grid.appendChild(n.cloneNode(true)));
+      }
+    })();
+  </script>
+
+</body>
+</html>
