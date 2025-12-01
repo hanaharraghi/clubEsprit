@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Clubs ESPRIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: #6F1425;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-live {
+            background: #FAE49E;
+            color: #000;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-red-live {
+            background: #FF0000;
+            color: white;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-upcoming {
+            background: #FAE49E;
+            color: #000;
+        }
+
+        .badge-live {
+            background: #FF0000;
+            color: white;
+        }
+
+        .event-image {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        select {
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #F3F4F6;
+            padding: 16px 0;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .event-image {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F6F6F6] min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#6F1425] text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <img width="110" height="110" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-20 sm:w-24 md:w-28" />
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8 lg:space-x-20 text-base lg:text-xl">
+                    <a href="#" class="transition hover:text-[#FAE49E]">Home</a>
+                    <a href="#" class="transition hover:text-[#FAE49E]">Clubs</a>
+                    <a href="#" class="text-[#FAE49E] font-semibold">Events</a>
+                    <a href="#" class="transition hover:text-[#FAE49E]">Calendar</a>
+                    <a href="#" class="transition hover:text-[#FAE49E]">Competition</a>
+                    <a href="#" class="transition hover:text-[#FAE49E]">My Clubs</a>
+                </div>
+
+                <!-- Mobile Menu Button & User Icon -->
+                <div class="flex items-center space-x-4">
+                    <button class="text-white">
+                        <a href="profile.html" class="fas fa-user-circle text-2xl"></a>
+                    </button>
+                    <button class="md:hidden text-white" onclick="toggleMenu()">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div class="mobile-menu md:hidden pb-4" id="mobileMenu">
+                <div class="flex flex-col space-y-3 text-base">
+                    <a href="#" class="transition hover:text-[#FAE49E] py-2">Home</a>
+                    <a href="#" class="transition hover:text-[#FAE49E] py-2">Clubs</a>
+                    <a href="#" class="text-[#FAE49E] font-semibold py-2">Events</a>
+                    <a href="#" class="transition hover:text-[#FAE49E] py-2">Calendar</a>
+                    <a href="#" class="transition hover:text-[#FAE49E] py-2">Competition</a>
+                    <a href="#" class="transition hover:text-[#FAE49E] py-2">My Clubs</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <!-- Left Column - Events List -->
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+                <!-- Events this week Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <div class="mb-4 sm:mb-6">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-[#000] mb-4">Events this week</h2>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-calendar-check text-[#6F1425] text-lg"></i>
+                            <span class="text-[#000] font-semibold text-sm sm:text-base">Events Available</span>
+                        </div>
+                    </div>
+
+                    <!-- AI Workshop Event -->
+                    <div class="bg-white rounded-xl p-4 sm:p-5 mb-4">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 space-y-2 sm:space-y-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-1">AI Workshop</h3>
+                                <p class="text-gray-600 text-sm mb-2">Robotics Club</p>
+                                <div class="flex items-center text-gray-500 text-xs sm:text-sm">
+                                    <i class="far fa-clock mr-2"></i>
+                                    <span>Today 2:00 PM - 4:00 PM</span>
+                                </div>
+                            </div>
+                            <span class="badge-upcoming px-3 py-1 rounded-full text-xs font-bold self-start">Upcoming</span>
+                        </div>
+                        <button class="btn-primary w-full rounded-lg text-white font-semibold flex items-center justify-center py-2">
+                            Join event
+                        </button>
+                    </div>
+
+                    <!-- Debate Practice Event -->
+                    <div class="bg-white rounded-xl p-4 sm:p-5">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 space-y-2 sm:space-y-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-1">Debate Practice</h3>
+                                <p class="text-gray-600 text-sm mb-2">Debate Club</p>
+                                <div class="flex items-center text-gray-500 text-xs sm:text-sm">
+                                    <i class="far fa-clock mr-2"></i>
+                                    <span>Today 3:00 PM - 6:00 PM</span>
+                                </div>
+                            </div>
+                            <span class="badge-upcoming px-3 py-1 rounded-full text-xs font-bold self-start">Upcoming</span>
+                        </div>
+                        <button class="btn-primary w-full rounded-lg text-white font-semibold flex items-center justify-center py-2">
+                            Join event
+                        </button>
+                    </div>
+                </div>
+
+                <!-- All Events Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-[#000] mb-4 sm:mb-6">All Events</h2>
+
+                    <!-- Filters -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                        <select class="w-full text-sm">
+                            <option>All Dates</option>
+                            <option>Today</option>
+                            <option>This Week</option>
+                            <option>This Month</option>
+                        </select>
+                        <select class="w-full text-sm">
+                            <option>All Themes</option>
+                            <option>Technology</option>
+                            <option>Sports</option>
+                            <option>Arts</option>
+                        </select>
+                        <select class="w-full text-sm sm:col-span-2 md:col-span-1">
+                            <option>All Status</option>
+                            <option>Upcoming</option>
+                            <option>Live</option>
+                            <option>Past</option>
+                        </select>
+                    </div>
+
+                    <!-- Event Cards -->
+                    <div class="space-y-4">
+                        <!-- Tech Summit 2025 -->
+                        <div class="bg-white rounded-xl p-4">
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&h=200&fit=crop" 
+                                     alt="Tech Summit" 
+                                     class="w-full md:w-64 h-40 object-cover rounded-xl flex-shrink-0">
+                                <div class="flex-1 flex flex-col space-y-3">
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-2">Tech Summit 2025</h3>
+                                            <p class="text-gray-600 text-sm mb-3">Robotics Club</p>
+                                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                                                <span class="flex items-center"><i class="far fa-calendar mr-1.5"></i> Oct 25, 2025</span>
+                                                <span class="flex items-center"><i class="fas fa-location-dot mr-1.5"></i> Main Hall</span>
+                                                <span class="flex items-center"><i class="fas fa-user mr-1.5"></i> 120 registered</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge-upcoming px-3 py-1 rounded-full text-xs font-bold self-start">Upcoming</span>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-auto">
+                                        <button class="btn-primary px-6 sm:px-20 rounded-lg text-white font-semibold flex items-center justify-center py-2 text-sm">
+                                            Join event
+                                        </button>
+                                        <button class="border-2 border-gray-300 px-6 sm:px-8 rounded-lg font-semibold flex items-center justify-center py-2 text-sm">
+                                            Contact Organizer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basketball Tournament -->
+                        <div class="bg-white rounded-xl p-4">
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <div class="relative flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=300&h=200&fit=crop" 
+                                         alt="Basketball Tournament" 
+                                         class="w-full md:w-64 h-40 object-cover rounded-xl">
+                                    <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center space-x-1.5">
+                                        <i class="fas fa-video text-red-600 text-xs"></i>
+                                        <span class="text-xs font-bold text-[#000]">Live</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 flex flex-col space-y-3">
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-2">Basketball Tournament</h3>
+                                            <p class="text-gray-600 text-sm mb-3">Sports Club</p>
+                                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                                                <span class="flex items-center"><i class="far fa-calendar mr-1.5"></i> Oct 28, 2025</span>
+                                                <span class="flex items-center"><i class="fas fa-location-dot mr-1.5"></i> Stadium</span>
+                                                <span class="flex items-center"><i class="fas fa-user mr-1.5"></i> 85 registered</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge-live px-7 py-1 rounded-full text-xs font-bold flex items-center space-x-1 self-start">
+                                            Live
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-auto">
+                                        <button class="btn-red-live px-6 sm:px-20 rounded-lg font-semibold flex items-center justify-center py-2 text-sm">
+                                            Join Live
+                                        </button>
+                                        <button class="border-2 border-gray-300 px-6 sm:px-9 rounded-lg font-semibold flex items-center justify-center py-2 text-sm">
+                                            Contact Organizer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hackathon 2025 -->
+                        <div class="bg-white rounded-xl p-4">
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=300&h=200&fit=crop" 
+                                     alt="Hackathon" 
+                                     class="w-full md:w-64 h-40 object-cover rounded-xl flex-shrink-0">
+                                <div class="flex-1 flex flex-col space-y-3">
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-2">Hackathon 2025</h3>
+                                            <p class="text-gray-600 text-sm mb-3">Coding Club</p>
+                                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                                                <span class="flex items-center"><i class="far fa-calendar mr-1.5"></i> Nov 5, 2025</span>
+                                                <span class="flex items-center"><i class="fas fa-location-dot mr-1.5"></i> Lab Complex</span>
+                                                <span class="flex items-center"><i class="fas fa-user mr-1.5"></i> 95 registered</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge-upcoming px-3 py-1 rounded-full text-xs font-bold self-start">Upcoming</span>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-auto">
+                                        <button class="btn-primary px-6 sm:px-20 rounded-lg text-white font-semibold flex items-center justify-center py-2 text-sm">
+                                            Join event
+                                        </button>
+                                        <button class="border-2 border-gray-300 px-6 sm:px-8 rounded-lg font-semibold flex items-center justify-center py-2 text-sm">
+                                            Contact Organizer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Live Events & Comments -->
+            <div class="space-y-4 sm:space-y-6">
+                <!-- Available Now Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <div class="mb-4 sm:mb-6">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-bell text-[#6F1425] text-lg"></i>
+                            <h2 class="text-lg sm:text-xl font-bold text-[#000]">Available Now</h2>
+                        </div>
+                    </div>
+
+                    <!-- Top 11 AI Workshop 2025 -->
+                    <div class="mb-4">
+                        <div class="relative mb-3">
+                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" 
+                                 alt="AI Workshop" 
+                                 class="event-image w-full">
+                            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center space-x-1.5">
+                                <i class="fas fa-video text-red-600 text-xs"></i>
+                                <span class="text-xs font-bold text-[#000]">LIVE</span>
+                            </div>
+                        </div>
+                        <button class="btn-red-live w-full rounded-lg font-bold flex items-center justify-center space-x-2 py-2">
+                            <span>Join Live</span>
+                        </button>
+                    </div>
+
+                    <!-- Coding Bootcamps -->
+                    <div>
+                        <div class="relative mb-3">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" 
+                                 alt="Coding Bootcamp" 
+                                 class="event-image w-full">
+                            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center space-x-1.5">
+                                <i class="fas fa-video text-red-600 text-xs"></i>
+                                <span class="text-xs font-bold text-[#000]">LIVE</span>
+                            </div>
+                        </div>
+                        <button class="btn-red-live w-full rounded-lg font-bold flex items-center justify-center space-x-2 py-2">
+                            <span>Join Live</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Community Comments Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <div class="flex items-center space-x-2 mb-4 sm:mb-5">
+                        <i class="fas fa-comments text-[#6F1425] text-lg"></i>
+                        <h3 class="font-bold text-lg sm:text-xl text-[#000]">Community Comments</h3>
+                    </div>
+
+                    <!-- Comment Input -->
+                    <textarea 
+                        class="w-full border border-gray-300 rounded-lg p-3 mb-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#6F1425] bg-white" 
+                        rows="3" 
+                        placeholder="Share your thoughts ..."></textarea>
+                    <button class="bg-[#6C6C6C] text-white w-full rounded-lg font-semibold flex items-center justify-center mb-4 py-2 transition-all text-sm">
+                        Send Comment
+                    </button>
+
+                    <!-- Comments List -->
+                    <div class="space-y-0">
+                        <!-- Comment 1 -->
+                        <div class="comment-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-sm">Ben Amar Arwa</h4>
+                                <span class="text-xs text-gray-400">2hours ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Really excited for the Tech Summit!</p>
+                            <div class="flex items-center gap-4 text-xs text-gray-500">
+                                <button class="flex items-center gap-1">
+                                    <i class="far fa-heart"></i> Like
+                                </button>
+                                <button>Answer</button>
+                            </div>
+                        </div>
+                        <hr class="border-gray-300">
+                        
+                        <!-- Comment 2 -->
+                        <div class="comment-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-sm">Ben Taleb Ilef</h4>
+                                <span class="text-xs text-gray-400">1min ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Who's going to the basketball tournament?</p>
+                            <div class="flex items-center gap-4 text-xs text-gray-500">
+                                <button class="flex items-center gap-1">
+                                    <i class="far fa-heart"></i> Like
+                                </button>
+                                <button>Answer</button>
+                            </div>
+                        </div>
+                        <hr class="border-gray-300">
+                        
+                        <!-- Comment 3 -->
+                        <div class="comment-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-sm">Azzouz Mariem</h4>
+                                <span class="text-xs text-gray-400">2hours ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">The art exhibition looks amazing!</p>
+                            <div class="flex items-center gap-4 text-xs text-gray-500">
+                                <button class="flex items-center gap-1">
+                                    <i class="far fa-heart"></i> Like
+                                </button>
+                                <button>Answer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#6F1425] text-white mt-8 sm:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                <!-- Logo and Description -->
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img width="200" height="200" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-32 sm:w-40" />
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        Connecting students with amazing clubs and communities at ESPRIT University.
+                    </p>
+                </div>
+
+                <!-- About Section -->
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg mb-3 sm:mb-4">About</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Our Story</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Team</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Press</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Section -->
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg mb-3 sm:mb-4">Contact</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Support</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Feedback</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Partnerships</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Media</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Section -->
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg mb-3 sm:mb-4">Legal</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-600 pt-4 sm:pt-6">
+                <p class="text-xs sm:text-sm text-gray-300 text-center">
+                    © 2025 Clubs ESPRIT. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
