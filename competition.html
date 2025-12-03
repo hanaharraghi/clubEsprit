@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition - Clubs ESPRIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: #6F1425;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #8a1a2f;
+        }
+
+        .badge-upcoming {
+            background: #FAE49E;
+            color: #000;
+        }
+
+        .badge-live {
+            background: #6F1425;
+            color: white;
+        }
+
+        .btn-join-live {
+            background: #FF0000;
+            color: white;
+        }
+
+        .btn-coming-soon {
+            background: #A67C7C;
+            color: white;
+        }
+
+        .battle-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .club-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .points-badge {
+            background: #FAE49E;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rules-card {
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+        }
+
+        .rules-green {
+            background: #D4F1D4;
+        }
+
+        .rules-blue {
+            background: #D4E4F7;
+        }
+
+        .rules-purple {
+            background: #E9D4F1;
+        }
+
+        .rules-orange {
+            background: #FAE4C8;
+        }
+
+        .club-winner-card {
+            background: #FFF9E6;
+            border: 2px solid #FAE49E;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .live-stream-modal {
+            background: #000;
+            color: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .live-badge {
+            background: #FF0000;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-score {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .team-name {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-top: 4px;
+        }
+
+        .quarter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .chat-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-message strong {
+            color: #FFD700;
+        }
+
+        .form-input {
+            width: 100%;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6F1425;
+            box-shadow: 0 0 0 3px rgba(111, 20, 37, 0.1);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 640px) {
+            .battle-card {
+                border-radius: 16px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .club-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .points-badge {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .rules-card {
+                border-radius: 14px;
+                padding: 16px 20px;
+                margin-bottom: 14px;
+            }
+            
+            .club-winner-card {
+                border-radius: 16px;
+                padding: 20px;
+                border-width: 3px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .battle-card {
+                border-radius: 20px;
+                padding: 24px;
+                margin-bottom: 24px;
+            }
+            
+            .club-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .points-badge {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .rules-card {
+                border-radius: 16px;
+                padding: 20px 24px;
+                margin-bottom: 16px;
+            }
+            
+            .club-winner-card {
+                border-radius: 20px;
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .live-stream-modal {
+                width: 95%;
+                max-height: 80vh;
+            }
+
+            .team-score {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F6F6F6] min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#6F1425] text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <img width="110" height="110" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-20 sm:w-24 md:w-28" />
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8 lg:space-x-20 text-base lg:text-xl">
+                <a href="#" class="transition hover:text-[#FAE49E]">Home</a>
+                <a href="#" class="transition hover:text-[#FAE49E]">Clubs</a>
+                <a href="events.html" class="transition hover:text-[#FAE49E]">Events</a>
+                <a href="#" class="transition hover:text-[#FAE49E]">Calendar</a>
+                <a href="competition.html" class="text-[#FAE49E] font-semibold">Competition</a>
+                <a href="#" class="transition hover:text-[#FAE49E]">My Clubs</a>
+            </div>
+
+            <!-- Mobile Menu Button & User Icon -->
+            <div class="flex items-center space-x-4">
+                <button class="text-white">
+                    <a href="profile.html" class="fas fa-user-circle text-2xl"></a>
+                </button>
+                <!-- Hamburger button -->
+                <button id="openMenu" class="md:hidden text-white w-9 h-9 rounded-full border border-white/60 flex items-center justify-center">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MOBILE MENU (SLIDE RIGHT) ========== -->
+<div id="mobileBackdrop" class="fixed inset-0 bg-black/40 z-40 hidden"></div>
+
+<div id="mobileMenu" class="fixed right-0 top-0 h-full w-64 bg-[#6F1425] text-white shadow-xl transform translate-x-full transition-transform duration-200 ease-out flex flex-col z-50">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-white/20">
+        <div class="flex items-center gap-2">
+            <img width="40" height="40" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-9 h-9 rounded" />
+            <span class="font-semibold text-sm">CLUBS ESPRIT</span>
+        </div>
+        <button id="closeMenu" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <nav class="flex-1 px-4 py-4 text-sm space-y-3">
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">Home</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">Clubs</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="events.html">Events</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">Calendar</a>
+        <a class="block py-2 border-b border-white/10 text-[#FAE49E]" href="competition.html">Competition</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">My Clubs</a>
+    </nav>
+</div>
+
+<script>
+    // Mobile menu functionality
+    const openMenuBtn = document.getElementById('openMenu');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+
+    function openMobileMenu() {
+        mobileMenu.classList.remove('translate-x-full');
+        mobileBackdrop.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeMobileMenu() {
+        mobileMenu.classList.add('translate-x-full');
+        mobileBackdrop.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    // Event listeners
+    openMenuBtn.addEventListener('click', openMobileMenu);
+    closeMenuBtn.addEventListener('click', closeMobileMenu);
+    mobileBackdrop.addEventListener('click', closeMobileMenu);
+
+    // Close menu with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+</script>
+
+    <!-- Live Stream Modal -->
+    <div class="modal-overlay" id="liveStreamModal">
+        <div class="live-stream-modal">
+            <div class="p-0">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center p-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="live-badge">
+                            <i class="fas fa-video"></i> LIVE
+                        </span>
+                        <div>
+                            <h2 class="text-xl font-bold text-white">Football Championship Live Stream</h2>
+                            <p class="text-sm text-gray-400">Oct 21, 2025 - University Stadium</p>
+                        </div>
+                    </div>
+                    <button onclick="closeLiveStream()" class="text-gray-400 hover:text-white text-xl p-2 rounded-full hover:bg-gray-800">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Live Stream Content -->
+                <div class="p-4 space-y-4">
+                    <!-- Video Player -->
+                    <div class="relative bg-gray-900 rounded-xl overflow-hidden aspect-video">
+                        <!-- Live Video -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-900 via-blue-900 to-purple-900 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-futbol text-white text-6xl mb-4"></i>
+                                <div class="text-white text-lg font-semibold mb-2">LIVE STREAM</div>
+                                <div class="text-gray-300">Football Championship - Second Half</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Live Badge -->
+                        <div class="absolute top-4 left-4">
+                            <span class="live-badge bg-red-600">
+                                <i class="fas fa-circle animate-pulse"></i> LIVE
+                            </span>
+                        </div>
+                        
+                        <!-- Viewers Count -->
+                        <div class="absolute top-4 right-4 flex items-center gap-2 text-white bg-black/50 px-3 py-1 rounded-full">
+                            <i class="fas fa-eye"></i>
+                            <span>15,432 viewers</span>
+                        </div>
+                        
+                        <!-- Game Info -->
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <div class="bg-black/70 backdrop-blur-sm rounded-xl p-4">
+                                <div class="text-center mb-2">
+                                    <div class="text-gray-400 text-sm">Second Half - 67:30</div>
+                                    <div class="text-white text-lg font-bold">Football Championship</div>
+                                    <div class="text-gray-300 text-sm">Sports vs Engineering</div>
+                                </div>
+                                
+                                <!-- Score Board -->
+                                <div class="score-board">
+                                    <div class="flex items-center justify-between">
+                                        <!-- Home Team -->
+                                        <div class="text-center">
+                                            <div class="team-name">HOME</div>
+                                            <div class="team-score">3</div>
+                                            <div class="text-sm text-gray-400 mt-1">SPORTS</div>
+                                        </div>
+                                        
+                                        <!-- VS -->
+                                        <div class="text-center mx-4">
+                                            <div class="text-gray-400 text-sm">VS</div>
+                                            <div class="quarter">2nd Half</div>
+                                        </div>
+                                        
+                                        <!-- Away Team -->
+                                        <div class="text-center">
+                                            <div class="team-name">AWAY</div>
+                                            <div class="team-score">1</div>
+                                            <div class="text-sm text-gray-400 mt-1">ENGINEERING</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Chat -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <!-- Chat Messages -->
+                        <div class="lg:col-span-2 space-y-3">
+                            <h3 class="text-lg font-bold text-white">Live Chat</h3>
+                            <div class="space-y-2 max-h-60 overflow-y-auto">
+                                <div class="chat-message">
+                                    <strong>Alex:</strong> What a goal! ⚽
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Sarah:</strong> Let's go Sports Club!
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Mike:</strong> Amazing game! 🔥
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Emma:</strong> This is incredible! 🎯
+                                </div>
+                                <div class="chat-message">
+                                    <strong>John:</strong> That goal was insane! 💥
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Lisa:</strong> Defense is on point today! 🛡️
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Tom:</strong> MVP performance right here! 👑
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Sophia:</strong> Can't believe this match! 🤯
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Input -->
+                            <div class="flex gap-2">
+                                <input type="text" 
+                                       id="liveChatInput"
+                                       placeholder="Type your message..."
+                                       class="flex-1 bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500">
+                                <button onclick="sendLiveChatMessage()" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Live Stats -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-bold text-white">Live Stats</h3>
+                            <div class="bg-gray-900 rounded-xl p-4">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Possession</span>
+                                        <span class="text-white font-semibold">62% - 38%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Shots</span>
+                                        <span class="text-white font-semibold">8 - 4</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Corners</span>
+                                        <span class="text-white font-semibold">6 - 3</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Fouls</span>
+                                        <span class="text-white font-semibold">5 - 7</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Pass Accuracy</span>
+                                        <span class="text-white font-semibold">78%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Yellow Cards</span>
+                                        <span class="text-white font-semibold">2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex gap-2">
+                                <button class="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center gap-2">
+                                    <i class="far fa-heart"></i> Like
+                                </button>
+                                <button class="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center gap-2">
+                                    <i class="far fa-share-square"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <!-- Page Title -->
+        <div class="text-center mb-6 sm:mb-8">
+            <div class="inline-block bg-[#FAE49E] rounded-full px-4 sm:px-6 md:px-8 py-2 sm:py-3 mb-4 sm:mb-6">
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-bold flex items-center justify-center space-x-2 sm:space-x-3">
+                <i class="fas fa-shield-alt"></i> 
+                <span class="text-sm sm:text-base md:text-2xl">Club Battles</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Battles List -->
+        <div class="mb-8 sm:mb-12">
+            <!-- Robotics Battle Royale -->
+            <div class="battle-card">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 sm:mb-6 md:mb-8">
+                    <div class="mb-4 sm:mb-0">
+                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2">Robotics Battle Royale</h2>
+                        <p class="text-gray-500 text-sm sm:text-base md:text-lg">Build the best autonomous robot in 48 hours</p>
+                    </div>
+                    <span class="badge-upcoming px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-bold self-start sm:self-auto mt-2 sm:mt-0">Upcoming</span>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between px-0 sm:px-2 md:px-4 lg:px-8">
+                    <!-- Robotics Club -->
+                    <div class="flex flex-col items-center mb-6 md:mb-0" style="width: 120px; max-width: 100%;">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQEBAQDxAPDw8PDxAPEBAPDQ8QDxIQFREWFhURFRUYHSggGBolGxUVITEhJSkrLy4uFx8zODMsNygtLisBCgoKDg0OGxAQGy0iICEvLSssKzctLSstMDEtLy4rLSsuLSsrKy0tLS03Ky0tLSstLTUvLS0rLTUtKy0tKystLf/AABEIAOUA3AMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABQECAwQGBwj/xABDEAABAwEEBQkFBgQFBQAAAAABAAIDEQQFEiExQVFhcQYTIjKBkaGxwQdSYnLRFDNCsuHwI4KSk0NEVKLCFRZTc/H/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAQIDBAUG/8QAJREBAAICAQQCAgMBAAAAAAAAAAECAxEEBRIxMhNBIWFRcYEU/9oADAMBAAIRAxEAPwD3FERAREQEREBERARFqy2nU3vQbJcFDWq/ACRGAaZYicuwLbD0a0bAOwKYmPtllre0arOkSbdM/wDE4/KKeSqDKfwynsepoOTEr9/6c08KZ9rzKGEko1SDseFey9JG6TXc4KWxITXTmnf+iOHavreYWWC8Wy9HQ8CtK1y2hbq0xQaABwACqJlSXXSLRXVp3LbRYopQctayqFxERAREQEREBERAREQEREBERAREQadvnp0RpOZ4LVYrJn4nuO+g4DJXMQZQrwVYCtW8Lzhs7cc8scTdsjw2vCulBvYkxLhLw9qNgjNIxNaDtZGGN73kKJk9rrK9GxuI+K0AHwaUHqOJKrzWze1qzn7yyzN3sfG+nfRdJdPLe77SQ1k7WPOQZMDE4nYK5HsKDpCVaSlVa5BaXkZjUpKCTE0Hv4qKeVtXW/rN4H6+iDfREQEREBERAREQEREBERAREQFhtcwYwuPAcdSzLlbxvhslsFmbmY4XTP2NFWtYDvdiJ4N3oNyJZwVrxlcl7SeU5scAiidS0WgEAjSyP8T+Oofog1uW/tDFmLrPY8L5xk+U5xxn3QPxO8B4LyW33jLO8yTSPlkOlz3EngNg3BakkiwucgzGRU5xYCVSqDZEiyCRaYKva5B2XJbltarEQ3EZrPrhkcSAPgd+Hho3L2a477htsImgdVpyc05PY7W1w1FfNjHrouSHKJ9htDZASYnENmZqcyun5hpHdrQe/PVLHMGSAk0B6J7dHjRWRzNe1r2EOa5oc0jQWkVBWtaQSCBpIIFdFaZIOnRQvJS+2Wyzxytr0mg0PWa4ZOY7eCppAREQEREBERAREQEREBERBq3nOI4nuOgA14AVPgCvLOQsrpbTbZpDV7+aJPzOkNOGQHYvUr1hxxPbuPdr8KrzDkhAYbRa4ndYc12gF+f+4HtQdwwrwblzehtNunfWrWPMTNzGHD51PavcnyUY47GuPcF82veXdI6XZnic0FGsLiAASSaAAEknYApdnJG3uAcLLJQ6Kujaf6XOBHcuo9mV3RlslpIDpGyc0wn8ADGlxG84qV3LvCV6GHixau5fNdQ65bBmnFjrE68zLwW2WOSJ2CWN8bvdkYWnjnqWvRe337dMdrhdE8CtDzb9bH6nA8aVGteKSMLSWuFC0lpGwg0IWWfB8cvQ6b1KOZSZ1qY8wsAW/YrotEwxRQTSN95kTi3vpRTHIO422qcukFYYML3AjJ7yThYd2RJG6mtesMaAAAAA3IAUAA2AalfDxu+O6XN1LrMcW/x1jc/f8Q8Qtd3TQU56KWKujnI3NB4EhYoyvcbZZmSxujkaHseKFp/eR3rxW3wCKaWMGojlfGDtDXEV8FnyOP8AH+Yb9M6n/wBkTExqYewey28zNYjE41dZnmMbebIxN9R2LqZivNfY9KRLam6nRRu7WucP+S9FtDlyvXcn7N7W6K2WmD/DMkjgNQc2TDlxaf8AaF6wvLPZ/YHPtc01OjzkgB21kxHw/MF6mgIiICIiAiIgIiICIta8JMLD8RDe/T4VQaN6Xi5regaVNAaCvHNYrpvkucI5SKu6rqAVPulR98P6g2Anv/8AihpJCMwaEGoOwjQVOmFrzFnoq5S/LpEUwtLBk5pjfTVUgiu6oy402Lo7vtIlijkH42gncdY76rLLGHNLXCocCCNyhu5RhxAjaCO8L52tsBje+M6Y3ujPFriPRfQssZie5jtLTp2jUV5Z7TbiMc/2tgrFORjpoZLSme51K8aoOXuW/rRZCTC8AO6zHNxMNNBpt3iilpOXltNM4W092HTxxErlXBW1W9c96xqJcmXhYMlu69Imf6h28ftFnDSHQROfTJ4c9rQdpbnXvC4ySQuJc41c4lxO0k1JWOqpVL5rX8yYOHhwbnHXW/Ke5L8pH2F0lGCVkgbiYXlhq2tHA0O06lL2j2hWlx/hxwRjYWvkPfUeS4qqqCpryL1jUSpk6fx8l/kvSJl2T/aBayzDhgDqUxhjqjeAXUXMGQuJc4kucSSTpJJqStYLZs0Tnua1jS5ziGtaBUknQAqZMtr+Za4OLiwb+OsRt6T7IYDW1y6qRRA7+k4+GHvXdWt5pRubjk0AVJJyA71G8mbrFiskcORkzfKRrkdpHZkOxdLyesuJ5lcMmZM+bWeweaydLd5O3Q2ywtYB0qCuum6vHSpVEQEREBERAREQEREBR98Hos+f/iVILQvlv8OvuuafT1Qc1ezun/KPVRMxUpenWB2tHmVFSq0Oa3s6nkVacUL4zpjfUfK7PzDl0S885O3iLPOC40jeMD91Tk7sPgSvQwVEtqTuEbfN2883E3KRuj4h7pXJWmJr2vhmYHNcC17HjwIXfrSvG645x0hRw0Pbk4fUcVC7wblD7PpGkvsRErNPNPcBK3cCcneBXDW6zSwuLZopInDKkjHN7q6V9G2y5LRFUtHPN2s63a0+lVEWicdSVn8srPRyKzOnz/zqc4vbJ7lu+TN9ks5J1iMNPhRa/wD2ldZ/yzeySQeqk7oeN84qiVe0R8lbsGiyxH5i53mVI2WyWSH7qCCOmtsbAe9QncPJrl5M2y1Ec3A9rD/iSgxxjfU5nsBXpvJfkpDYaSOImtFPvCKNZtDBq46VPWfnJfumPfva04e/QFM2Hk840M7qD3GGp7XauzvRLRsNkfO+jcmjrO1NH13LroIWsaGNFGtFAkELWNDWNDWjQAsiAiIgIiICIiAiIgIiICsniD2uadDgR3q9EHF3gwgAHrMJY799nioqULsr8sGIGRorlR4GkgaHDeFyU0dDT98VaGGSNTtGytXRcmeUOCkE56GiN5/B8Lvh36uGiDmatR+SKxOnra07wvOKAfxHZnQxoq89nqVx1w3/ADsBioJGhpwlxNWbOI3LIYi4lziXOcaknMkqroidw1r35Y2vG5sDY4mfhLmY5KbTU4fBQNrvq8ZQWutTqHUIbPT8i6C3WAObUDpNzHqFEiELSsRMPP5F8lLeXKtuycdWeXtcT6rILDav9RJ3BdQIQs1nsZeaNHE6hxVu2GMcjJM6hyYu+0HTaJewgLeuqzTwSc5HLIZKFoL6SihIrRrwQDlppVdnBczB1uke4LdjszW5NaBwACpMw6q4s1vadIqyX3eQ0ua//wBkLG/lopqx8opx9/Cw7TE4g/0ur5q3mVrW4YG5aSaBV3t0RSaxubS62y2hsjQ5hqD3g7CNRWVed3fez4pCWF5wkBwdUscNi66y3sXNa4tFCPwkim3Smlq3iUsixQTteKtPEHSFlULiIiAiIgIiICIiAiIgKEva5A+roqA6cOqu76KbRETG3nFqgcwlrgQRqIooycL1O1WSOUUkYHDeMxwOpc1e/JOPC58crmBoJwuGIcAciPFTtlOOY8Iq5LNSPEdL8+zV+96lmMVlnjAAA1Ci2mtUNYjUMMreieBXOBq6S2mkbz8JUAAtcbzufP5rDHh7fXcuksVkEbA3XpcdrtZUJZY6yRjbID/T0vRdQGqMk/S3BpGpt/jHgTAoyZ5NtwFwDWwWd4abVLF0nSzirY25SE4Gih2Ba8dqcCHbTY20xyUGK8XxE9ataHbTKhqMlm9BN4FH3u3JvF3oqXBaXO5yN1BzRLWNOb3MEj287WuYJaW01YDXTQbF7MqyvuuHccvokK39Zco00e4fEfFdFcs1QW7Mxw1/veuN5QWh8D2ytaXRnoyUObdjqa/0U3cluBwSNNWnPsOlWYVnU7daKghzTQj90UpZbQHiugjJw2H6KMYrmPLHBw7RtCq6Uwio1wIBGgioVUBERAREQEREBERAREQFoX0+kJHvFo8a+i31GX+egwbZB+VyCJiC2GhYogthgQat5N/hu4V7jVQQC6lzKqLluWp6Mha06sIcRwP1qr0tEOLlce2SYmrWumLFKDqjBceJBaB4u7l0QCwWKxtibhbXTUkmrnHaVtUVbTuW+DF8dO1jdECQSGkjQSASOCc2Ng7hqNfPNZaKihsx4RsGvVt0rFOwOaWnQRT9Vncsb0HGXtZ6hzXDaCFD8m3c298OquJvkR5LsL6s1QXjTTpDdtXGVwWmM7XYT25edFZzTXX4eiXVLiYBrb0ezUt14UNcr83Da0HuP6qa1KJbUndWzdklWlvunwOj1W6oq73Ulp7zT3g1+qlVC4iIgIiICIiAiIgIiICi7+6rPmPkpRR1+DoN3SD8pQRsYWdgWKILYaEFwCpzLcYfTpBjmA1PVcWkinFre5XgK4IACqiqgoqK5UQWOWF6zOWCQoNK1FcZelnbz0ZFQecaaDR1guwtbsiuXnGKdnzV7s1KsuiuYdM/IfMKdCh7mbm47gO8/opg6ElGP1Y7Mf4zOLvylTKhbHnO34Q4+FPVTShcREQEREBERAREQEREBad7NrEdxafGnqtxY7RHiY5u1pHbqQQkQWdoWGFbLQgqFcEAVwCCiK6iUQWqhV9FaQgxPWtKVsvWpMUEdbX5FQEQrMDsr5FTFuKx3Jdxle/4Y3EfNob4orPhK3G3rne31UhO+gWjc5o14ORDswdIyWyI3SuwtyH4nagPruUyinq2LmjqXyHX0G8Bp8adylFZFGGtDW5ACgV6hcREQEREFUREBERAREQEREETaIsLyNR6Q7f1V7Aty1w4hl1hmPotOMoMgCuDUarwEFtEor6JRBZRWuCy0Vrgg1pAtOdqkHtWrK1BD2iFTnJ2yYIy4jOQ1/lGQ9e9asFl5x9NQzcdgU80AAAZACgG5BifY4yS4tFTpIqK8aaVlYwAUAAGwCgVUQKJRVRBSirREQEREBERARYrTLgaXbPMmg81FmUnWSgl8Y2jvVOdbtUTiKYigludbtTnW7QoipVCHbUExzzdoWpamjrNIrrG39VHOY7ateSOXUUErHMCs7XLl5JLQw1DcW5UPKQRis7JIgNLnMcWjfUIOrBVarl4eWNjP+Yi7Xgea2G8qbIdFpg/vR/VB0FVaXKCPKWy/wCoh/vM+q1ZOVtkrhFoic46Gska9x4BuaDoZHrVccRwt0nuG8qFde75Pu4pCPecwgK+F02whB1FmjaxtA4E6SdpWXENo71zjDJrKzNc/agncQ2jvVS8fvNQrXuVwkcgl+dbtA45K4OG0d6iOccmMoJlFEMthYRiOVaEcVLAoKoiILC5WukVrgsL2lBgvab+E4bS38wUdDKQtm22V7gQ0571EFlrjOcIlbtY7C5BMMdVXqIZegH3kU8fzQuI721WxFesB/xWD5yWfmoiEgixxTtd1XNd8rgfJZa7kBVomSrRBSiUVab0oiWCSyRO60cbvmjafMLCbqs3+ng/sR/RbuFKIhptuuzjRBAOEMY9FnZA1vVa1vBoHkstEogswBUwrJRUIQWYVTCr8lSqC3ChCOcteS1MGmRg/nbVBnKwSz00LXfbo9RLj8LHO9FgfLK77uCQ73jAECUucQARUuAFdFa5VXUslyHBc1ZbvtBIdIGtAzoFNRROGlEt8PVarXYCsoCC+itLURBbgQsCIgpgCOhadIB4gFEQYX3fC7rRRHjGw+ioLuhGiNrflGHyREFwsTNjv7kn1V32Rvxf1ORED7K3a7vT7MNru8fREQPsw2nwT7MNp8ERA+zDafBU+zDa7w+iIgfZRtd3j6Kn2Ru139SIgGxM+L+4/wBCrf8Ap8esE8XvPmVVEFv/AEyD/wAUZ4sB81lZZYxoYwcGNCIgyBgTAqogphVcKIguAVURB//Z" alt="Robotics Club" class="club-avatar mb-2 sm:mb-3 md:mb-4 border-2 sm:border-4 border-gray-200">
+                        <h3 class="text-base sm:text-lg md:text-xl lg:text-xl font-bold mb-1 sm:mb-2">Your Robot</h3>
+                        <p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">0</p>
+                    </div>
+
+                    <!-- Battle Info Center -->
+                    <div class="flex flex-col items-center mb-6 md:mb-0 flex-1 mx-0 sm:mx-4 md:mx-8 lg:mx-12">
+                        <div class="points-badge mb-2 sm:mb-3 md:mb-4">
+                        <i class="fas fa-shield-alt text-lg sm:text-xl md:text-2xl lg:text-4xl"></i>
+                        </div>
+                        <p class="text-gray-500 text-xs sm:text-sm md:text-base mb-1 sm:mb-2">Oct 30, 2025</p>
+                        <div class="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-3 md:mb-4">
+                            <i class="fas fa-trophy text-yellow-500 text-base sm:text-lg md:text-xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-700">500 points</span>
+                        </div>
+                        <button class="btn-coming-soon px-4 sm:px-6 md:px-8 lg:px-11 py-1.5 sm:py-2 md:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm md:text-base">
+                            Coming Soon...
+                        </button>
+                    </div>
+
+                    <!-- IEEE Club -->
+                    <div class="flex flex-col items-center" style="width: 120px; max-width: 100%;">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoGntq1IML7GFV0t3USOCaiAUq1uHt8avjNg&s" alt="IEEE" class="club-avatar mb-2 sm:mb-3 md:mb-4 border-2 sm:border-4 border-gray-200">
+                        <h3 class="text-base sm:text-lg md:text-xl lg:text-xl font-bold mb-1 sm:mb-2">IEEE RAS</h3>
+                        <p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Football Championship -->
+            <div class="battle-card">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 sm:mb-6 md:mb-8">
+                    <div class="mb-4 sm:mb-0">
+                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2">Football Championship</h2>
+                        <p class="text-gray-500 text-sm sm:text-base md:text-lg">Inter-club football match for supremacy</p>
+                    </div>
+                    <span class="badge-live px-4 sm:px-6 md:px-10 lg:px-12 py-1 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-bold self-start sm:self-auto mt-2 sm:mt-0">Live</span>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between px-0 sm:px-2 md:px-4 lg:px-8">
+                    <!-- Sports Club -->
+                    <div class="flex flex-col items-center mb-6 md:mb-0" style="width: 120px; max-width: 100%;">
+                        <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=200&h=200&fit=crop" alt="Sports Club" class="club-avatar mb-2 sm:mb-3 md:mb-4 border-2 sm:border-4 border-gray-200">
+                        <h3 class="text-base sm:text-lg md:text-xl lg:text-xl font-bold mb-1 sm:mb-2">Foot Club</h3>
+                        <p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">3</p>
+                    </div>
+
+                    <!-- Battle Info Center -->
+                    <div class="flex flex-col items-center mb-6 md:mb-0 flex-1 mx-0 sm:mx-4 md:mx-8 lg:mx-12">
+                        <div class="points-badge mb-2 sm:mb-3 md:mb-4">
+                        <i class="fas fa-shield-alt text-lg sm:text-xl md:text-2xl lg:text-4xl"></i>
+                        </div>
+                        <p class="text-gray-500 text-xs sm:text-sm md:text-base mb-1 sm:mb-2">Oct 21, 2025</p>
+                        <div class="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-3 md:mb-4">
+                            <i class="fas fa-trophy text-yellow-500 text-base sm:text-lg md:text-xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-700">400 points</span>
+                        </div>
+                        <button onclick="openLiveStream()" class="btn-join-live px-4 sm:px-6 md:px-10 lg:px-16 py-1.5 sm:py-2 md:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm md:text-base">
+                            Join Live
+                        </button>
+                    </div>
+
+                    <!-- Engineering Club -->
+                    <div class="flex flex-col items-center" style="width: 120px; max-width: 100%;">
+                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=200&h=200&fit=crop" alt="Engineering Club" class="club-avatar mb-2 sm:mb-3 md:mb-4 border-2 sm:border-4 border-gray-200">
+                        <h3 class="text-base sm:text-lg md:text-xl lg:text-xl font-bold mb-1 sm:mb-2">Eng Club</h3>
+                        <p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">1</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Music Battle -->
+            <div class="battle-card">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 sm:mb-6 md:mb-8">
+                    <div class="mb-4 sm:mb-0">
+                        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2">Music Battle</h2>
+                        <p class="text-gray-500 text-sm sm:text-base md:text-lg">Creative performance showcase and competition</p>
+                    </div>
+                    <span class="badge-upcoming px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-bold self-start sm:self-auto mt-2 sm:mt-0">Upcoming</span>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between px-0 sm:px-2 md:px-4 lg:px-8">
+                    <!-- Music Club -->
+                    <div class="flex flex-col items-center mb-6 md:mb-0" style="width: 120px; max-width: 100%;">
+                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=200&h=200&fit=crop" alt="Music Club" class="club-avatar mb-2 sm:mb-3 md:mb-4 border-2 sm:border-4 border-gray-200">
+                        <h3 class="text-base sm:text-lg md:text-xl lg:text-xl font-bold mb-1 sm:mb-2">Music Club</h3>
+                        <p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">0</p>
+                    </div>
+
+                    <!-- Battle Info Center -->
+                    <div class="flex flex-col items-center mb-6 md:mb-0 flex-1 mx-0 sm:mx-4 md:mx-8 lg:mx-12">
+                        <div class="points-badge mb-2 sm:mb-3 md:mb-4">
+                        <i class="fas fa-shield-alt text-lg sm:text-xl md:text-2xl lg:text-4xl"></i>
+                        </div>
+                        <p class="text-gray-500 text-xs sm:text-sm md:text-base mb-1 sm:mb-2">Nov 5, 2025</p>
+                        <div class="flex items-center space-x-1 sm:space-x-2 mb-2 sm:mb-3 md:mb-4">
+                            <i class="fas fa-trophy text-yellow-500 text-base sm:text-lg md:text-xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-gray-700">350 points</span>
+                        </div>
+                        <button class="btn-coming-soon px-4 sm:px-6 md:px-8 lg:px-10 py-1.5 sm:py-2 md:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm md:text-base">
+                            Coming Soon...
+                        </button>
+                    </div>
+
+                    <!-- Art Club -->
+                    <div class="flex flex-col items-center" style="width: 120px; max-width: 100%;">
+                        <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=200&h=200&fit=crop" alt="Art Club" class="club-avatar mb-2 sm:mb-3 md:mb-4 border-2 sm:border-4 border-gray-200">
+                        <h3 class="text-base sm:text-lg md:text-xl lg:text-xl font-bold mb-1 sm:mb-2">Art Club</h3>
+                        <p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rules & Point System Section -->
+        <div class="mb-8 sm:mb-12">
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 flex items-center">
+                <i class="fas fa-book text-[#6F1425] mr-2 sm:mr-3"></i>
+                Rules & Point System
+            </h2>
+
+            <!-- How to Earn Points -->
+            <div class="mb-6 sm:mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">How to Earn Points</h3>
+                
+                <div class="rules-card rules-green">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                        <div class="flex items-center space-x-2 sm:space-x-3 md:space-x-4 mb-2 sm:mb-0">
+                            <i class="fas fa-trophy text-lg sm:text-xl md:text-2xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg">Organizing Events: 50-150 points</span>
+                        </div>
+                        <span class="text-gray-700 text-xs sm:text-sm md:text-base">Based on attendance and success</span>
+                    </div>
+                </div>
+
+                <div class="rules-card rules-blue">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                        <div class="flex items-center space-x-2 sm:space-x-3 md:space-x-4 mb-2 sm:mb-0">
+                            <i class="fas fa-trophy text-lg sm:text-xl md:text-2xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg">Winning Battles: 200-500 points</span>
+                        </div>
+                        <span class="text-gray-700 text-xs sm:text-sm md:text-base">Depends on battle type and difficulty</span>
+                    </div>
+                </div>
+
+                <div class="rules-card rules-purple">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                        <div class="flex items-center space-x-2 sm:space-x-3 md:space-x-4 mb-2 sm:mb-0">
+                            <i class="fas fa-trophy text-lg sm:text-xl md:text-2xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg">Member Participation: 10 points per active member</span>
+                        </div>
+                        <span class="text-gray-700 text-xs sm:text-sm md:text-base">Monthly bonus for engagement</span>
+                    </div>
+                </div>
+
+                <div class="rules-card rules-orange">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between">
+                        <div class="flex items-center space-x-2 sm:space-x-3 md:space-x-4 mb-2 sm:mb-0">
+                            <i class="fas fa-trophy text-lg sm:text-xl md:text-2xl"></i>
+                            <span class="font-bold text-sm sm:text-base md:text-lg">Special Achievements: 100-300 points</span>
+                        </div>
+                        <span class="text-gray-700 text-xs sm:text-sm md:text-base">University recognition and awards</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Classification Rules -->
+            <div>
+                <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">General Classification Rules</h3>
+                <div class="bg-white rounded-lg sm:rounded-xl md:rounded-2xl p-4 sm:p-6">
+                    <ul class="space-y-2 sm:space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-2">•</span>
+                            <span class="text-sm sm:text-base">All club points are calculated and accumulated cumulatively throughout the complete academic year timeline and progression</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2">•</span>
+                            <span class="text-sm sm:text-base">The prestigious Club of the Week title is determined specifically by weekly point gains and performance achievements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2">•</span>
+                            <span class="text-sm sm:text-base">All battle outcomes and results are carefully judged by combined faculty members and student committee panels</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2">•</span>
+                            <span class="text-sm sm:text-base">The top three ranking clubs at year-end receive special institutional recognition awards and additional financial funding support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Club of the Week Section -->
+        <div class="mb-8 sm:mb-12">
+    <div class="bg-white p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl border border-orange-200">
+        
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6 border-b border-orange-100 pb-2">
+            
+            <div class="mb-3 sm:mb-0">
+                <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold flex items-center mb-1">
+                    <i class="fas fa-crown text-orange-400 mr-2 sm:mr-3 text-lg sm:text-xl md:text-2xl lg:text-3xl"></i> 
+                    Club of the Week
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-gray-600 ml-6 sm:ml-8 md:ml-10">Most points this week</p>
+            </div>
+            
+            <div>
+                <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">Robotics Club</h3>
+            </div>
+            
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-start pt-4">
+
+            <div class="relative">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvQv7Y6NzHtenum11roWpvBo9DfTpTZtiRpA&s" 
+                     alt="Robotics Club" 
+                     class="w-full h-auto rounded-lg sm:rounded-xl object-cover">
+                
+                <div class="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 bg-yellow-400 rounded sm:rounded-lg px-2 sm:px-3 py-0.5 sm:py-1 flex items-center space-x-1 shadow-md">
+                    <i class="fas fa-crown text-xs sm:text-sm"></i>
+                    <span class="text-xs sm:text-sm font-bold">Winner</span>
+                </div>
+            </div>
+
+            <div class="pt-4 lg:pt-0"> 
+                
+                <div class="mb-4 sm:mb-6 md:mb-8">
+                    <p class="text-base sm:text-lg font-semibold text-gray-700 mb-1 sm:mb-2">Weekly Points</p>
+                    <p class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold">320</p> 
+                </div>
+
+                <div>
+                    <p class="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Achievements This Week:</p>
+                    <ul class="space-y-2 sm:space-y-3 text-base sm:text-lg">
+                        <li class="flex items-center space-x-2 sm:space-x-3">
+                            <i class="fas fa-check-circle text-gray-800"></i> 
+                            <span>Won 2 battles</span>
+                        </li>
+                        <li class="flex items-center space-x-2 sm:space-x-3">
+                            <i class="fas fa-check-circle text-gray-800"></i>
+                            <span>3 events organized</span>
+                        </li>
+                        <li class="flex items-center space-x-2 sm:space-x-3">
+                            <i class="fas fa-check-circle text-gray-800"></i>
+                            <span>Highest attendance</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+        <!-- Overall Club Rankings Section -->
+        <!-- Overall Club Rankings Section -->
+        <div>
+        <h2 class="text-3xl font-bold mb-6 flex  items-center">
+        <i class="fas fa-trophy text-yellow-500 mr-3"></i>
+        Overall Club Rankings
+        </h2>
+
+    <div class="bg-white rounded-2xl p-8">
+        <div class="grid grid-cols-[0.7fr_2fr_1.5fr_1.2fr_1fr] pb-4 border-b-2 border-gray-200 font-bold text-lg mb-4 text-gray-500">
+            <div>Rank</div>
+            <div>Club</div>
+            <div>Category</div>
+            <div>Points</div>
+            <div class="text-right">Change</div> 
+        </div>
+
+        <div class="space-y-4">
+            
+            <div class="grid grid-cols-[0.7fr_2fr_1.5fr_1.2fr_1fr] items-center py-4 border-b border-gray-100">
+                <div class="flex items-center ">
+                    <div class="w-8 h-8 bg-yellow-400 rounded-lg flex items-center justify-center font-bold text-base"> 
+                        1
+                    </div>
+                </div>
+                <div class="font-semibold">Robotics Club</div>
+                <div class="text-gray-600">Technology</div>
+                <div class="font-bold text-lg">2450</div>
+                <div class="text-right text-green-600 font-semibold">+120</div>
+            </div>
+
+            <div class="grid grid-cols-[0.7fr_2fr_1.5fr_1.2fr_1fr] items-center py-4 border-b border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center font-bold text-base text-gray-700">
+                        2
+                    </div>
+                </div>
+                <div class="font-semibold">Music Club</div>
+                <div class="text-gray-600">Art</div>
+                <div class="font-bold text-lg">2380</div>
+                <div class="text-right text-green-600 font-semibold">+95</div>
+            </div>
+
+            <div class="grid grid-cols-[0.7fr_2fr_1.5fr_1.2fr_1fr] items-center py-4 border-b border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 border-2 border-black rounded-lg flex items-center justify-center font-bold text-base text-gray-700">
+                        3
+                    </div>
+                </div>
+                <div class="font-semibold">Sports Club</div>
+                <div class="text-gray-600">Sports</div>
+                <div class="font-bold text-lg">2150</div>
+                <div class="text-right text-red-600 font-semibold">-80</div>
+            </div>
+
+            <div class="grid grid-cols-[0.7fr_2fr_1.5fr_1.2fr_1fr] items-center py-4 border-b border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 flex items-center justify-center font-bold text-base text-gray-700">
+                        4
+                    </div>
+                </div>
+                <div class="font-semibold">IEEE</div>
+                <div class="text-gray-600">Technology</div>
+                <div class="font-bold text-lg">1980</div>
+                <div class="text-right text-red-600 font-semibold">-60</div>
+            </div>
+
+            <div class="grid grid-cols-[0.7fr_2fr_1.5fr_1.2fr_1fr] items-center py-4">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 flex items-center justify-center font-bold text-base text-gray-700">
+                        5
+                    </div>
+                </div>
+                <div class="font-semibold">Chess & Chess</div>
+                <div class="text-gray-600">Games</div>
+                <div class="font-bold text-lg">1875</div>
+                <div class="text-right text-green-600 font-semibold">+45</div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#6F1425] text-white mt-8 sm:mt-12 md:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                <!-- Logo and Description -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                        <img width="200" height="200" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-24 sm:w-32 md:w-40" />
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        Connecting students with amazing clubs and communities at ESPRIT University.
+                    </p>
+                </div>
+
+                <!-- About Section -->
+                <div>
+                    <h3 class="font-bold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">About</h3>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-300">
+                        <li><a href="#" class="transition hover:text-white">Our Story</a></li>
+                        <li><a href="#" class="transition hover:text-white">Team</a></li>
+                        <li><a href="#" class="transition hover:text-white">Careers</a></li>
+                        <li><a href="#" class="transition hover:text-white">Press</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Section -->
+                <div>
+                    <h3 class="font-bold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Contact</h3>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-300">
+                        <li><a href="#" class="transition hover:text-white">Support</a></li>
+                        <li><a href="#" class="transition hover:text-white">Feedback</a></li>
+                        <li><a href="#" class="transition hover:text-white">Partnerships</a></li>
+                        <li><a href="#" class="transition hover:text-white">Media</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Section -->
+                <div>
+                    <h3 class="font-bold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Legal</h3>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-300">
+                        <li><a href="#" class="transition hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="transition hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="transition hover:text-white">Cookie Policy</a></li>
+                        <li><a href="#" class="transition hover:text-white">Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-600 pt-4 sm:pt-6">
+                <p class="text-xs sm:text-sm text-gray-300 text-center">
+                    © 2025 Clubs ESPRIT. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Live Stream Functions
+        function openLiveStream() {
+            const modal = document.getElementById('liveStreamModal');
+            
+            // Show the live stream modal
+            modal.classList.add('active');
+            
+            // Prevent scrolling on body when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLiveStream() {
+            const modal = document.getElementById('liveStreamModal');
+            
+            // Hide the modal
+            modal.classList.remove('active');
+            
+            // Restore scrolling on body
+            document.body.style.overflow = 'auto';
+        }
+
+        function sendLiveChatMessage() {
+            const chatInput = document.getElementById('liveChatInput');
+            const message = chatInput.value.trim();
+            
+            if (message) {
+                // In a real app, you would send this to a server
+                // For now, we'll just clear the input
+                chatInput.value = '';
+                
+                // You could also add the message to the chat display
+                console.log('Live chat message sent:', message);
+            }
+        }
+
+        // Close modal when clicking outside the modal content
+        document.getElementById('liveStreamModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLiveStream();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLiveStream();
+            }
+        });
+    </script>
+</body>
+</html>

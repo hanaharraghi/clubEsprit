@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Clubs ESPRIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: #6F1425;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #5a0f1e;
+        }
+
+        .btn-joined {
+            background: #10B981;
+            color: white;
+            min-height: 33px;
+            cursor: not-allowed;
+        }
+
+        .btn-live {
+            background: #FAE49E;
+            color: #000;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-red-live {
+            background: #FF0000;
+            color: white;
+            min-height: 33px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-red-live:hover {
+            background: #cc0000;
+        }
+
+        .badge-upcoming {
+            background: #FAE49E;
+            color: #000;
+        }
+
+        .badge-live {
+            background: #FF0000;
+            color: white;
+        }
+
+        .event-image {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        select {
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #F3F4F6;
+            padding: 16px 0;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        /* Live Stream Modal */
+        .live-stream-modal {
+            max-width: 900px;
+            background: #000;
+            color: white;
+        }
+
+        .live-badge {
+            background: #FF0000;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-score {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .team-name {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-top: 4px;
+        }
+
+        .quarter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .chat-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-message strong {
+            color: #FFD700;
+        }
+
+        .form-input {
+            width: 100%;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6F1425;
+            box-shadow: 0 0 0 3px rgba(111, 20, 37, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #EF4444;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-input {
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid #D1D5DB;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        /* Chat Widget Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+        }
+
+        .chat-button {
+            width: 56px;
+            height: 56px;
+            background: #6F1425;
+            color: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 20px;
+        }
+
+        .chat-button:hover {
+            background: #8c1930;
+            transform: scale(1.05);
+        }
+
+        .chat-popup {
+            width: 340px;
+            height: 520px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-out;
+            display: none;
+        }
+
+        .chat-popup.active {
+            display: block;
+        }
+
+        .chat-header {
+            background: linear-gradient(to right, #8B5CF6, #EC4899);
+            padding: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-club-list {
+            padding: 16px;
+            height: 440px;
+            overflow-y: auto;
+            display: block;
+        }
+
+        .chat-conversation {
+            height: 440px;
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-conversation.active {
+            display: flex;
+        }
+
+        .chat-club-list.hidden {
+            display: none;
+        }
+
+        .club-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 8px;
+        }
+
+        .club-item:hover {
+            background-color: #F9FAFB;
+        }
+
+        .club-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .club-info {
+            flex: 1;
+        }
+
+        .club-name {
+            font-weight: 500;
+            color: #1F2937;
+        }
+
+        .club-last-msg {
+            font-size: 12px;
+            color: #6B7280;
+            margin-top: 2px;
+        }
+
+        .notification-badge {
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .conversation-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .conversation-back {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #374151;
+        }
+
+        .conversation-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .message-them {
+            background: #F3F4F6;
+            color: #1F2937;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-me {
+            background: #3B82F6;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: #9CA3AF;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 16px;
+            background: #F9FAFB;
+            border: none;
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-send-btn {
+            width: 40px;
+            height: 40px;
+            background: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .chat-send-btn:hover {
+            background: #2563EB;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-image {
+                height: 150px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                max-height: 80vh;
+            }
+
+            .live-stream-modal {
+                max-height: 95vh;
+            }
+
+            .team-score {
+                font-size: 36px;
+            }
+
+            .chat-popup {
+                width: 320px;
+                height: 500px;
+            }
+
+            .chat-widget {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F6F6F6] min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#6F1425] text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <img width="110" height="110" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-20 sm:w-24 md:w-28" />
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8 lg:space-x-20 text-base lg:text-xl">
+                <a href="#" class="transition hover:text-[#FAE49E]">Home</a>
+                <a href="#" class="transition hover:text-[#FAE49E]">Clubs</a>
+                <a href="events.html" class="transition hover:text-[#FAE49E]">Events</a>
+                <a href="#" class="transition hover:text-[#FAE49E]">Calendar</a>
+                <a href="competition.html" class="text-[#FAE49E] font-semibold">Competition</a>
+                <a href="#" class="transition hover:text-[#FAE49E]">My Clubs</a>
+            </div>
+
+            <!-- Mobile Menu Button & User Icon -->
+            <div class="flex items-center space-x-4">
+                <button class="text-white">
+                    <a href="profile.html" class="fas fa-user-circle text-2xl"></a>
+                </button>
+                <!-- Hamburger button -->
+                <button id="openMenu" class="md:hidden text-white w-9 h-9 rounded-full border border-white/60 flex items-center justify-center">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MOBILE MENU (SLIDE RIGHT) ========== -->
+<div id="mobileBackdrop" class="fixed inset-0 bg-black/40 z-40 hidden"></div>
+
+<div id="mobileMenu" class="fixed right-0 top-0 h-full w-64 bg-[#6F1425] text-white shadow-xl transform translate-x-full transition-transform duration-200 ease-out flex flex-col z-50">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-white/20">
+        <div class="flex items-center gap-2">
+            <img width="40" height="40" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-9 h-9 rounded" />
+            <span class="font-semibold text-sm">CLUBS ESPRIT</span>
+        </div>
+        <button id="closeMenu" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <nav class="flex-1 px-4 py-4 text-sm space-y-3">
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">Home</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">Clubs</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="events.html">Events</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">Calendar</a>
+        <a class="block py-2 border-b border-white/10 text-[#FAE49E]" href="competition.html">Competition</a>
+        <a class="block py-2 border-b border-white/10 hover:text-[#FAE49E]" href="#">My Clubs</a>
+    </nav>
+</div>
+
+<script>
+    // Mobile menu functionality
+    const openMenuBtn = document.getElementById('openMenu');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+
+    function openMobileMenu() {
+        mobileMenu.classList.remove('translate-x-full');
+        mobileBackdrop.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeMobileMenu() {
+        mobileMenu.classList.add('translate-x-full');
+        mobileBackdrop.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    // Event listeners
+    openMenuBtn.addEventListener('click', openMobileMenu);
+    closeMenuBtn.addEventListener('click', closeMobileMenu);
+    mobileBackdrop.addEventListener('click', closeMobileMenu);
+
+    // Close menu with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+</script>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <!-- Chat Button -->
+        <button class="chat-button" id="chatButton">
+            💬
+        </button>
+
+        <!-- Chat Popup -->
+        <div class="chat-popup" id="chatPopup">
+            <!-- Header -->
+            <div class="chat-header">
+                <span class="font-medium">Club Chats</span>
+                <button onclick="closeChat()" class="text-white text-xl">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Club List -->
+            <div class="chat-club-list" id="clubList">
+                <!-- Clubs will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Conversation View -->
+            <div class="chat-conversation" id="conversationView">
+                <!-- Conversation header -->
+                <div class="conversation-header">
+                    <button class="conversation-back" onclick="backToClubs()">←</button>
+                    <img id="conversationAvatar" src="" alt="" class="conversation-avatar">
+                    <span id="conversationName" class="font-medium"></span>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Messages will be inserted here by JavaScript -->
+                </div>
+
+                <!-- Input Area -->
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type a message…">
+                    <button class="chat-send-btn" onclick="sendMessage()">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="joinEventModal">
+        <div class="modal-content">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-2">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">Registration Form</h2>
+                        <p class="text-sm text-gray-600 mt-1">Fill in your information to join</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-xl p-2 rounded-full hover:bg-gray-100">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <form id="eventForm" class="space-y-4 mt-6">
+                    <!-- Full Name -->
+                    <div>
+                        <label class="form-label required">Full Name</label>
+                        <input type="text" 
+                               name="fullName"
+                               required 
+                               class="form-input"
+                               placeholder="Enter your full name">
+                    </div>
+                    
+                    <!-- Email -->
+                    <div>
+                        <label class="form-label required">Email</label>
+                        <input type="email" 
+                               name="email"
+                               required 
+                               class="form-input"
+                               placeholder="your.email@example.com">
+                    </div>
+                    
+                    <!-- Phone Number -->
+                    <div>
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" 
+                               name="phone"
+                               class="form-input"
+                               placeholder="+216 XX XXX XXX">
+                    </div>
+                    
+                    <!-- Organization -->
+                    <div>
+                        <label class="form-label">Organization</label>
+                        <input type="text" 
+                               name="organization"
+                               class="form-input"
+                               placeholder="Your company or school">
+                    </div>
+                    
+                    <!-- Why join? -->
+                    <div>
+                        <label class="form-label">Why join?</label>
+                        <textarea 
+                            name="reason"
+                            class="form-input min-h-[100px]"
+                            placeholder="Tell us about your interest..."></textarea>
+                    </div>
+                    
+                    <!-- Event Selection (hidden) -->
+                    <input type="hidden" id="eventNameInput" name="eventName">
+                    
+                    <!-- Checkbox -->
+                    <div class="pt-2">
+                        <div class="checkbox-container">
+                            <input type="checkbox" 
+                                   id="updates" 
+                                   name="updates"
+                                   class="checkbox-input"
+                                   checked>
+                            <label for="updates" class="checkbox-label">
+                                I agree to receive event updates
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Buttons -->
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" 
+                                onclick="closeModal()"
+                                class="flex-1 border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-300">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="flex-1 bg-[#6F1425] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#5a0f1e] transition duration-300">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Stream Modal -->
+    <div class="modal-overlay" id="liveStreamModal">
+        <div class="modal-content live-stream-modal">
+            <div class="p-0">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center p-4 border-b border-gray-800">
+                    <div class="flex items-center gap-3">
+                        <span class="live-badge">
+                            <i class="fas fa-video"></i> LIVE
+                        </span>
+                        <div>
+                            <h2 class="text-xl font-bold text-white">Basketball Tournament Live Stream</h2>
+                            <p class="text-sm text-gray-400">Oct 28, 2025 - Stadium</p>
+                        </div>
+                    </div>
+                    <button onclick="closeLiveStream()" class="text-gray-400 hover:text-white text-xl p-2 rounded-full hover:bg-gray-800">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Live Stream Content -->
+                <div class="p-4 space-y-4">
+                    <!-- Video Player -->
+                    <div class="relative bg-gray-900 rounded-xl overflow-hidden aspect-video">
+                        <!-- Live Video -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-900 via-purple-900 to-red-900 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-basketball-ball text-white text-6xl mb-4"></i>
+                                <div class="text-white text-lg font-semibold mb-2">LIVE STREAM</div>
+                                <div class="text-gray-300">Basketball Tournament - Quarter 3</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Live Badge -->
+                        <div class="absolute top-4 left-4">
+                            <span class="live-badge bg-red-600">
+                                <i class="fas fa-circle animate-pulse"></i> LIVE
+                            </span>
+                        </div>
+                        
+                        <!-- Viewers Count -->
+                        <div class="absolute top-4 right-4 flex items-center gap-2 text-white bg-black/50 px-3 py-1 rounded-full">
+                            <i class="fas fa-eye"></i>
+                            <span>20,199 viewers</span>
+                        </div>
+                        
+                        <!-- Game Info -->
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <div class="bg-black/70 backdrop-blur-sm rounded-xl p-4">
+                                <div class="text-center mb-2">
+                                    <div class="text-gray-400 text-sm">Quarter 3 - 12:45</div>
+                                    <div class="text-white text-lg font-bold">Basketball Tournament</div>
+                                    <div class="text-gray-300 text-sm">Sports Club</div>
+                                </div>
+                                
+                                <!-- Score Board -->
+                                <div class="score-board">
+                                    <div class="flex items-center justify-between">
+                                        <!-- Home Team -->
+                                        <div class="text-center">
+                                            <div class="team-name">HOME</div>
+                                            <div class="team-score">78</div>
+                                            <div class="text-sm text-gray-400 mt-1">ANNY</div>
+                                        </div>
+                                        
+                                        <!-- VS -->
+                                        <div class="text-center mx-4">
+                                            <div class="text-gray-400 text-sm">VS</div>
+                                            <div class="quarter">Q3</div>
+                                        </div>
+                                        
+                                        <!-- Away Team -->
+                                        <div class="text-center">
+                                            <div class="team-name">AWAY</div>
+                                            <div class="team-score">72</div>
+                                            <div class="text-sm text-gray-400 mt-1">TEAM</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Chat -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <!-- Chat Messages -->
+                        <div class="lg:col-span-2 space-y-3">
+                            <h3 class="text-lg font-bold text-white">Live Chat</h3>
+                            <div class="space-y-2 max-h-60 overflow-y-auto">
+                                <div class="chat-message">
+                                    <strong>Sarah:</strong> What a play! 🏀
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Mike:</strong> Let's go team!
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Emma:</strong> Amazing game! 🔥
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Alex:</strong> This is incredible! 🎯
+                                </div>
+                                <div class="chat-message">
+                                    <strong>John:</strong> That three-pointer was insane! 💥
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Lisa:</strong> Defense is on point today! 🛡️
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Tom:</strong> MVP performance right here! 👑
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Sophia:</strong> Can't believe this game! 🤯
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Input -->
+                            <div class="flex gap-2">
+                                <input type="text" 
+                                       id="chatInput"
+                                       placeholder="Type your message..."
+                                       class="flex-1 bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500">
+                                <button onclick="sendChatMessage()" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Live Stats -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-bold text-white">Live Stats</h3>
+                            <div class="bg-gray-900 rounded-xl p-4">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Field Goals</span>
+                                        <span class="text-white font-semibold">54%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">3 Pointers</span>
+                                        <span class="text-white font-semibold">42%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Free Throws</span>
+                                        <span class="text-white font-semibold">78%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Rebounds</span>
+                                        <span class="text-white font-semibold">32</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Assists</span>
+                                        <span class="text-white font-semibold">18</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-400">Steals</span>
+                                        <span class="text-white font-semibold">7</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex gap-2">
+                                <button class="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center gap-2">
+                                    <i class="far fa-heart"></i> Like
+                                </button>
+                                <button class="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-medium flex items-center justify-center gap-2">
+                                    <i class="far fa-share-square"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <!-- Left Column - Events List -->
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+                <!-- Events this week Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <div class="mb-4 sm:mb-6">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-[#000] mb-4">Events this week</h2>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-calendar-check text-[#6F1425] text-lg"></i>
+                            <span class="text-[#000] font-semibold text-sm sm:text-base">Events Available</span>
+                        </div>
+                    </div>
+
+                    <!-- AI Workshop Event -->
+                    <div class="bg-white rounded-xl p-4 sm:p-5 mb-4">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 space-y-2 sm:space-y-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-1">AI Workshop</h3>
+                                <p class="text-gray-600 text-sm mb-2">Robotics Club</p>
+                                <div class="flex items-center text-gray-500 text-xs sm:text-sm">
+                                    <i class="far fa-clock mr-2"></i>
+                                    <span>Today 2:00 PM - 4:00 PM</span>
+                                </div>
+                            </div>
+                            <span class="badge-upcoming px-3 py-1 rounded-full text-xs font-bold self-start">Upcoming</span>
+                        </div>
+                        <button onclick="openModal('AI Workshop', this)" 
+                                class="btn-primary w-full rounded-lg text-white font-semibold flex items-center justify-center py-2">
+                            Join event
+                        </button>
+                    </div>
+
+                    <!-- Debate Practice Event -->
+                    <div class="bg-white rounded-xl p-4 sm:p-5">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 space-y-2 sm:space-y-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-1">Debate Practice</h3>
+                                <p class="text-gray-600 text-sm mb-2">Debate Club</p>
+                                <div class="flex items-center text-gray-500 text-xs sm:text-sm">
+                                    <i class="far fa-clock mr-2"></i>
+                                    <span>Today 3:00 PM - 6:00 PM</span>
+                                </div>
+                            </div>
+                            <span class="badge-upcoming px-3 py-1 rounded-full text-xs font-bold self-start">Upcoming</span>
+                        </div>
+                        <button onclick="openModal('Debate Practice', this)" 
+                                class="btn-primary w-full rounded-lg text-white font-semibold flex items-center justify-center py-2">
+                            Join event
+                        </button>
+                    </div>
+                </div>
+
+                <!-- All Events Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-[#000] mb-4 sm:mb-6">All Events</h2>
+
+                    <!-- Filters -->
+                    <!-- Filters -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+    <!-- Date Filter -->
+    <select id="dateFilter" class="w-full text-sm" onchange="filterEvents()">
+        <option value="all">All Dates</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+    </select>
+    
+    <!-- Theme Filter -->
+    <select id="themeFilter" class="w-full text-sm" onchange="filterEvents()">
+        <option value="all">All Themes</option>
+        <option value="technology">Technology</option>
+        <option value="sports">Sports</option>
+        <option value="arts">Arts</option>
+    </select>
+    
+    <!-- Status Filter -->
+    <select id="statusFilter" class="w-full text-sm sm:col-span-2 md:col-span-1" onchange="filterEvents()">
+        <option value="all">All Status</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="live">Live</option>
+        <option value="past">Past</option>
+    </select>
+</div>
+<!-- Event Cards -->
+<div id="eventsContainer" class="space-y-4">
+    <!-- Les événements seront rendus dynamiquement ici -->
+</div>
+
+                    <!-- Event Cards -->
+                    
+                </div>
+            </div>
+
+            <!-- Right Column - Live Events & Comments -->
+            <div class="space-y-4 sm:space-y-6">
+                <!-- Available Now Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+                    <div class="mb-4 sm:mb-6">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-bell text-[#6F1425] text-lg"></i>
+                            <h2 class="text-lg sm:text-xl font-bold text-[#000]">Available Now</h2>
+                        </div>
+                    </div>
+
+                    <!-- Top 11 AI Workshop 2025 -->
+                    <div class="mb-4">
+                        <div class="relative mb-3">
+                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" 
+                                 alt="AI Workshop" 
+                                 class="event-image w-full">
+                            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center space-x-1.5">
+                                <i class="fas fa-video text-red-600 text-xs"></i>
+                                <span class="text-xs font-bold text-[#000]">LIVE</span>
+                            </div>
+                        </div>
+                        <button onclick="openLiveStream(this)" 
+                                class="btn-red-live w-full rounded-lg font-bold flex items-center justify-center space-x-2 py-2">
+                            <span>Join Live</span>
+                        </button>
+                    </div>
+
+                    <!-- Coding Bootcamps -->
+                    <div>
+                        <div class="relative mb-3">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" 
+                                 alt="Coding Bootcamp" 
+                                 class="event-image w-full">
+                            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full flex items-center space-x-1.5">
+                                <i class="fas fa-video text-red-600 text-xs"></i>
+                                <span class="text-xs font-bold text-[#000]">LIVE</span>
+                            </div>
+                        </div>
+                        <button onclick="openLiveStream(this)" 
+                                class="btn-red-live w-full rounded-lg font-bold flex items-center justify-center space-x-2 py-2">
+                            <span>Join Live</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Community Comments Section -->
+                <div class="bg-[#F6F6F6] rounded-2xl p-4 sm:p-6">
+    <div class="flex items-center space-x-2 mb-4 sm:mb-5">
+        <i class="fas fa-comments text-[#6F1425] text-lg"></i>
+        <h3 class="font-bold text-lg sm:text-xl text-[#000]">Community Comments</h3>
+    </div>
+
+    <!-- Comment Input -->
+    <textarea 
+        id="commentInput"
+        class="w-full border border-gray-300 rounded-lg p-3 mb-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#6F1425] bg-white" 
+        rows="3" 
+        placeholder="Share your thoughts ..."></textarea>
+    <button onclick="addComment()" 
+            class="bg-[#6C6C6C] hover:bg-[#5a5a5a] text-white w-full rounded-lg font-semibold flex items-center justify-center mb-4 py-2 transition-all text-sm">
+        Send Comment
+    </button>
+
+    <!-- Comments List -->
+    <div id="commentsContainer" class="space-y-0">
+        <!-- Comment 1 -->
+        <div class="comment-item">
+            <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-sm">Ben Amar Arwa</h4>
+                <span class="text-xs text-gray-400">2hours ago</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">Really excited for the Tech Summit!</p>
+            <div class="flex items-center gap-4 text-xs text-gray-500">
+                <button class="flex items-center gap-1" onclick="likeComment(this)">
+                    <i class="far fa-heart"></i> Like
+                </button>
+                <button>Answer</button>
+            </div>
+        </div>
+        <hr class="border-gray-300">
+        
+        <!-- Comment 2 -->
+        <div class="comment-item">
+            <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-sm">Ben Taleb Ilef</h4>
+                <span class="text-xs text-gray-400">1min ago</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">Who's going to the basketball tournament?</p>
+            <div class="flex items-center gap-4 text-xs text-gray-500">
+                <button class="flex items-center gap-1" onclick="likeComment(this)">
+                    <i class="far fa-heart"></i> Like
+                </button>
+                <button>Answer</button>
+            </div>
+        </div>
+        <hr class="border-gray-300">
+        
+        <!-- Comment 3 -->
+        <div class="comment-item">
+            <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold text-sm">Azzouz Mariem</h4>
+                <span class="text-xs text-gray-400">2hours ago</span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">The art exhibition looks amazing!</p>
+            <div class="flex items-center gap-4 text-xs text-gray-500">
+                <button class="flex items-center gap-1" onclick="likeComment(this)">
+                    <i class="far fa-heart"></i> Like
+                </button>
+                <button>Answer</button>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#6F1425] text-white mt-8 sm:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                <!-- Logo and Description -->
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img width="200" height="200" alt="club" src="https://github.com/user-attachments/assets/47f7c030-9816-4006-8c63-5d774c744a74" class="w-32 sm:w-40" />
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        Connecting students with amazing clubs and communities at ESPRIT University.
+                    </p>
+                </div>
+
+                <!-- About Section -->
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg mb-3 sm:mb-4">About</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Our Story</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Team</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Press</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Section -->
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg mb-3 sm:mb-4">Contact</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Support</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Feedback</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Partnerships</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Media</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Section -->
+                <div>
+                    <h3 class="font-bold text-base sm:text-lg mb-3 sm:mb-4">Legal</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-300 transition hover:text-white">Guidelines</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-600 pt-4 sm:pt-6">
+                <p class="text-xs sm:text-sm text-gray-300 text-center">
+                    © 2025 Clubs ESPRIT. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Clubs Data -->
+    <script> 
+        const clubs = [
+            {
+                id: 1,
+                name: "Tech Innovators",
+                icon : "https://media.istockphoto.com/id/1352367851/vector/dx-vector-icon-illustration.jpg?s=612x612&w=0&k=20&c=_m2prNR3aJFKZ-AH5kVKMr9RGmBnKoWU6J-ExRMBaC0=",
+                notif: 2,
+                lastMsg: "Meeting tomorrow at 3 PM!",
+                messages: [
+                    { from: "them", text: "Welcome to Tech Innovators!", time: "10:30 AM" },
+                    { from: "me", text: "Thanks! Excited to join!", time: "10:32 AM" },
+                    { from: "them", text: "Meeting tomorrow at 3 PM!", time: "11:15 AM" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Art Collective",
+                icon :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPeCodR5jln5CQm579ypgtvaJFnfoX0bWZ7A&s",
+                notif: 1,
+                lastMsg: "New gallery opening next week",
+                messages: [
+                    { from: "them", text: "Hello artist!", time: "09:18 AM" },
+                    { from: "them", text: "New exhibition this Friday.", time: "11:00 AM" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Sports League",
+                icon: "https://www.ekinsport.com/media/amasty/blog/cache/c/o/1056/664/comment-attirer-de-nouveaux-talents-pour-son-club-de-sport-1056.jpg",
+                notif: 1,
+                lastMsg: "Registration is open",
+                messages: [
+                    { from: "them", text: "Welcome athlete!", time: "08:44 AM" },
+                    { from: "them", text: "Training at 6 PM today.", time: "09:02 AM" }
+                ]
+            }
+        ];
+
+
+        // Events Data for Filtering
+const allEvents = [
+    {
+        id: 1,
+        title: "Tech Summit 2025",
+        club: "Robotics Club",
+        date: "2025-10-25",
+        time: "2:00 PM - 5:00 PM",
+        location: "Main Hall",
+        registered: 120,
+        status: "upcoming",
+        theme: "technology",
+        image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&h=200&fit=crop",
+        description: "Annual technology conference featuring latest innovations"
+    },
+    {
+        id: 2,
+        title: "Basketball Tournament",
+        club: "Sports Club",
+        date: "2025-10-28",
+        time: "6:00 PM - 9:00 PM",
+        location: "Stadium",
+        registered: 85,
+        status: "live",
+        theme: "sports",
+        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=300&h=200&fit=crop",
+        description: "Inter-university basketball championship"
+    },
+    {
+        id: 3,
+        title: "Hackathon 2025",
+        club: "Coding Club",
+        date: "2025-11-05",
+        time: "9:00 AM - 9:00 PM",
+        location: "Lab Complex",
+        registered: 95,
+        status: "upcoming",
+        theme: "technology",
+        image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=300&h=200&fit=crop",
+        description: "24-hour coding competition"
+    },
+    {
+        id: 4,
+        title: "Art Exhibition",
+        club: "Art Club",
+        date: "2025-10-20",
+        time: "10:00 AM - 6:00 PM",
+        location: "Gallery",
+        registered: 65,
+        status: "past",
+        theme: "arts",
+        image: "https://images.unsplash.com/photo-1563089145-599997674d42?w=300&h=200&fit=crop",
+        description: "Student art showcase"
+    },
+    {
+        id: 5,
+        title: "AI Workshop",
+        club: "Robotics Club",
+        date: "2025-10-26",
+        time: "2:00 PM - 4:00 PM",
+        location: "Room 301",
+        registered: 45,
+        status: "upcoming",
+        theme: "technology",
+        image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=300&h=200&fit=crop",
+        description: "Hands-on AI and machine learning workshop"
+    },
+    {
+        id: 6,
+        title: "Football Match",
+        club: "Sports Club",
+        date: "2025-10-29",
+        time: "4:00 PM - 6:00 PM",
+        location: "Football Field",
+        registered: 110,
+        status: "upcoming",
+        theme: "sports",
+        image: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=300&h=200&fit=crop",
+        description: "Friendly match between faculties"
+    }
+];
+
+// Filter Events Function
+function filterEvents() {
+    const dateFilter = document.getElementById('dateFilter').value;
+    const themeFilter = document.getElementById('themeFilter').value;
+    const statusFilter = document.getElementById('statusFilter').value;
+    
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const currentDate = today.getDate();
+    
+    let filteredEvents = allEvents.filter(event => {
+        // Date Filter
+        if (dateFilter !== 'all') {
+            const eventDate = new Date(event.date);
+            const eventYear = eventDate.getFullYear();
+            const eventMonth = eventDate.getMonth();
+            const eventDay = eventDate.getDate();
+            
+            if (dateFilter === 'today') {
+                if (eventYear !== currentYear || eventMonth !== currentMonth || eventDay !== currentDate) {
+                    return false;
+                }
+            } else if (dateFilter === 'week') {
+                const oneWeekAgo = new Date(today);
+                oneWeekAgo.setDate(today.getDate() + 7);
+                if (eventDate < today || eventDate > oneWeekAgo) {
+                    return false;
+                }
+            } else if (dateFilter === 'month') {
+                if (eventYear !== currentYear || eventMonth !== currentMonth) {
+                    return false;
+                }
+            }
+        }
+        
+        // Theme Filter
+        if (themeFilter !== 'all' && event.theme !== themeFilter) {
+            return false;
+        }
+        
+        // Status Filter
+        if (statusFilter !== 'all' && event.status !== statusFilter) {
+            return false;
+        }
+        
+        return true;
+    });
+    
+    // Sort events by date (upcoming first)
+    filteredEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    renderEvents(filteredEvents);
+}
+
+// Render Events Function
+function renderEvents(events) {
+    const eventsContainer = document.getElementById('eventsContainer');
+    
+    if (events.length === 0) {
+        eventsContainer.innerHTML = `
+            <div class="bg-white rounded-xl p-8 text-center">
+                <i class="fas fa-calendar-times text-gray-400 text-4xl mb-4"></i>
+                <h3 class="text-lg font-bold text-gray-700 mb-2">No Events Found</h3>
+                <p class="text-gray-500">Try adjusting your filters to see more events.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    eventsContainer.innerHTML = events.map(event => `
+        <div class="event-card bg-white rounded-xl p-4">
+            <div class="flex flex-col md:flex-row gap-4">
+                <img src="${event.image}" 
+                     alt="${event.title}" 
+                     class="w-full md:w-64 h-40 object-cover rounded-xl flex-shrink-0">
+                <div class="flex-1 flex flex-col space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
+                        <div class="flex-1">
+                            <h3 class="text-lg sm:text-xl font-bold text-[#000] mb-2">${event.title}</h3>
+                            <p class="text-gray-600 text-sm mb-3">${event.club}</p>
+                            <div class="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                                <span class="flex items-center"><i class="far fa-calendar mr-1.5"></i> ${formatDate(event.date)}</span>
+                                <span class="flex items-center"><i class="fas fa-location-dot mr-1.5"></i> ${event.location}</span>
+                                <span class="flex items-center"><i class="fas fa-user mr-1.5"></i> ${event.registered} registered</span>
+                            </div>
+                        </div>
+                        <span class="${getStatusBadgeClass(event.status)} px-3 py-1 rounded-full text-xs font-bold self-start">
+                            ${capitalizeFirstLetter(event.status)}
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-600">${event.description}</p>
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-auto">
+                        <button onclick="openModal('${event.title}', this)" 
+                                class="btn-primary px-6 sm:px-20 rounded-lg text-white font-semibold flex items-center justify-center py-2 text-sm">
+                            Join event
+                        </button>
+                        <button onclick="toggleChat()" 
+                                class="border-2 border-gray-300 px-6 sm:px-8 rounded-lg font-semibold flex items-center justify-center py-2 text-sm hover:bg-gray-50 transition duration-300">
+                            Contact Organizer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Helper Functions
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+    });
+}
+
+function getStatusBadgeClass(status) {
+    switch(status) {
+        case 'live':
+            return 'badge-live';
+        case 'upcoming':
+            return 'badge-upcoming';
+        case 'past':
+            return 'bg-gray-300 text-gray-700';
+        default:
+            return 'badge-upcoming';
+    }
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Initialize events on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial render of all events
+    renderEvents(allEvents);
+});
+function openLiveStream(button) {
+            currentEventButton = button;
+            
+            const modal = document.getElementById('liveStreamModal');
+            
+            // Show the live stream modal
+            modal.classList.add('active');
+            
+            // Prevent scrolling on body when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('joinEventModal');
+            
+            // Hide the modal
+            modal.classList.remove('active');
+            
+            // Restore scrolling on body
+            document.body.style.overflow = 'auto';
+            
+            // Reset the form
+            document.getElementById('eventForm').reset();
+            
+            // Reset current button reference
+            currentEventButton = null;
+            currentEventName = '';
+        }
+
+        function closeLiveStream() {
+            const modal = document.getElementById('liveStreamModal');
+            
+            // Hide the modal
+            modal.classList.remove('active');
+            
+            // Restore scrolling on body
+            document.body.style.overflow = 'auto';
+            
+            // Reset current button reference
+            currentEventButton = null;
+        }
+
+        // Chat Widget Functions
+        let activeClub = null;
+
+        function toggleChat() {
+            const chatPopup = document.getElementById('chatPopup');
+            const chatButton = document.getElementById('chatButton');
+            
+            if (chatPopup.classList.contains('active')) {
+                closeChat();
+            } else {
+                chatPopup.classList.add('active');
+                chatButton.style.display = 'none';
+                renderClubList();
+            }
+        }
+
+        function closeChat() {
+            const chatPopup = document.getElementById('chatPopup');
+            const chatButton = document.getElementById('chatButton');
+            
+            if (activeClub) {
+                backToClubs();
+            } else {
+                chatPopup.classList.remove('active');
+                chatButton.style.display = 'flex';
+            }
+        }
+
+        function renderClubList() {
+            const clubList = document.getElementById('clubList');
+            clubList.innerHTML = '';
+            
+            clubs.forEach(club => {
+                const clubItem = document.createElement('div');
+                clubItem.className = 'club-item';
+                clubItem.onclick = () => openConversation(club);
+                
+                clubItem.innerHTML = `
+                    <img src="${club.icon}" alt="${club.name}" class="club-avatar">
+                    <div class="club-info">
+                        <div class="club-name">${club.name}</div>
+                        <div class="club-last-msg">${club.lastMsg}</div>
+                    </div>
+                    <div class="notification-badge">${club.notif}</div>
+                `;
+                
+                clubList.appendChild(clubItem);
+            });
+        }
+
+        function openConversation(club) {
+            activeClub = club;
+            const clubList = document.getElementById('clubList');
+            const conversationView = document.getElementById('conversationView');
+            
+            // Update conversation header
+            document.getElementById('conversationAvatar').src = club.icon;
+            document.getElementById('conversationName').textContent = club.name;
+            
+            // Render messages
+            renderMessages();
+            
+            // Switch views
+            clubList.classList.add('hidden');
+            conversationView.classList.add('active');
+        }
+
+        function renderMessages() {
+            const messagesContainer = document.getElementById('messagesContainer');
+            messagesContainer.innerHTML = '';
+            
+            activeClub.messages.forEach((msg, i) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex flex-col ${msg.from === 'me' ? 'items-end' : 'items-start'}`;
+                messageDiv.style.animationDelay = `${i * 0.1}s`;
+                messageDiv.style.animation = 'fadeInUp 0.35s forwards';
+                messageDiv.style.opacity = '0';
+                
+                messageDiv.innerHTML = `
+                    <div class="message-bubble ${msg.from === 'me' ? 'message-me' : 'message-them'}">
+                        ${msg.text}
+                    </div>
+                    <div class="message-time">${msg.time}</div>
+                `;
+                
+                messagesContainer.appendChild(messageDiv);
+            });
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function backToClubs() {
+            activeClub = null;
+            const clubList = document.getElementById('clubList');
+            const conversationView = document.getElementById('conversationView');
+            
+            clubList.classList.remove('hidden');
+            conversationView.classList.remove('active');
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            
+            if (message === '' || !activeClub) return;
+            
+            // Add message to active club
+            activeClub.messages.push({
+                from: 'me',
+                text: message,
+                time: 'Now'
+            });
+            
+            // Update UI
+            renderMessages();
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Add auto-reply (simulated)
+            setTimeout(() => {
+                const replies = [
+                    "Thanks for your message!",
+                    "We'll get back to you soon.",
+                    "Great to hear from you!"
+                ];
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                
+                activeClub.messages.push({
+                    from: 'them',
+                    text: randomReply,
+                    time: 'Now'
+                });
+                renderMessages();
+            }, 1000);
+        }
+
+        // Initialize chat button
+        document.getElementById('chatButton').onclick = toggleChat;
+        
+        // Initialize club list on load
+        renderClubList();
+
+        // Handle Enter key in chat input
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Your existing functions remain the same
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function openModal(eventName, button) {
+            currentEventButton = button;
+            currentEventName = eventName;
+            
+            const modal = document.getElementById('joinEventModal');
+            const eventNameInput = document.getElementById('eventNameInput');
+            
+            // Set the event name in the hidden field
+            eventNameInput.value = eventName;
+            
+            // Show the modal
+            modal.classList.add('active');
+            
+            // Prevent scrolling on body when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+       
+
+        function closeModal() {
+            const modal = document.getElementById('joinEventModal');
+            
+            // Hide the modal
+            modal.classList.remove('active');
+            
+            // Restore scrolling on body
+            document.body.style.overflow = 'auto';
+            
+            // Reset the form
+            document.getElementById('eventForm').reset();
+            
+            // Reset current button reference
+            currentEventButton = null;
+            currentEventName = '';
+        }
+
+        function closeLiveStream() {
+            const modal = document.getElementById('liveStreamModal');
+            
+            // Hide the modal
+            modal.classList.remove('active');
+            
+            // Restore scrolling on body
+            document.body.style.overflow = 'auto';
+            
+            // Reset current button reference
+            currentEventButton = null;
+        }
+
+        function markEventAsJoined(button) {
+            // Change button to joined state
+            button.classList.remove('btn-primary', 'btn-red-live');
+            button.classList.add('btn-joined');
+            button.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Event Joined';
+            button.disabled = true;
+            
+            // Store that this event has been joined
+            if (currentEventName) {
+                joinedEvents.add(currentEventName);
+            }
+        }
+
+        function sendChatMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            
+            if (message) {
+                // In a real app, you would send this to a server
+                // For now, we'll just clear the input
+                chatInput.value = '';
+                
+                // You could also add the message to the chat display
+                console.log('Chat message sent:', message);
+            }
+        }
+
+        // Close modal when clicking outside the modal content
+        document.getElementById('joinEventModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('liveStreamModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLiveStream();
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('eventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const fullName = formData.get('fullName');
+            const email = formData.get('email');
+            
+            // Basic validation
+            if (!fullName || !email) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Mark the event as joined
+            if (currentEventButton) {
+                markEventAsJoined(currentEventButton);
+            }
+            
+            // Close the modal
+            closeModal();
+            
+            // Log the registration (in a real app, you would send this to a server)
+            console.log('Event Registration:', {
+                event: currentEventName,
+                name: fullName,
+                email: email,
+                phone: formData.get('phone'),
+                organization: formData.get('organization'),
+                reason: formData.get('reason'),
+                updates: formData.get('updates') === 'on'
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeLiveStream();
+            }
+        });
+
+        // Initialize event buttons state
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if any events were already joined (from localStorage or session)
+            const buttons = document.querySelectorAll('[onclick^="openModal"]');
+            buttons.forEach(button => {
+                const match = button.getAttribute('onclick').match(/openModal\('([^']+)'/);
+                if (match && joinedEvents.has(match[1])) {
+                    markEventAsJoined(button);
+                }
+            });
+        });
+        // Fonction pour ajouter un commentaire
+function addComment() {
+    const commentInput = document.getElementById('commentInput');
+    const commentText = commentInput.value.trim();
+    
+    if (commentText === '') {
+        alert('Please write a comment before sending.');
+        return;
+    }
+    
+    const commentsContainer = document.getElementById('commentsContainer');
+    
+    // Créer un nouvel élément commentaire
+    const commentDiv = document.createElement('div');
+    commentDiv.className = 'comment-item';
+    commentDiv.style.animation = 'fadeInUp 0.5s ease-out';
+    
+    // Simuler un nom d'utilisateur (dans une vraie app, cela viendrait du profil utilisateur)
+    const userNames = ['You', 'Current User', 'Anonymous'];
+    const randomName = userNames[Math.floor(Math.random() * userNames.length)];
+    
+    // Obtenir l'heure actuelle
+    const now = new Date();
+    const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    commentDiv.innerHTML = `
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="font-bold text-sm">${randomName}</h4>
+            <span class="text-xs text-gray-400">Just now</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-2">${commentText}</p>
+        <div class="flex items-center gap-4 text-xs text-gray-500">
+            <button class="flex items-center gap-1" onclick="likeComment(this)">
+                <i class="far fa-heart"></i> Like
+            </button>
+            <button onclick="replyToComment(this)">Answer</button>
+        </div>
+    `;
+    
+    // Ajouter le nouveau commentaire au début de la liste
+    const firstComment = commentsContainer.firstElementChild;
+    if (firstComment) {
+        // Ajouter une ligne de séparation avant d'insérer le nouveau commentaire
+        const hr = document.createElement('hr');
+        hr.className = 'border-gray-300';
+        commentsContainer.insertBefore(hr, firstComment);
+        commentsContainer.insertBefore(commentDiv, hr);
+    } else {
+        // Si c'est le premier commentaire
+        commentsContainer.appendChild(commentDiv);
+    }
+    
+    // Effacer la zone de texte
+    commentInput.value = '';
+    
+    // Mettre le focus sur la zone de texte pour permettre un autre commentaire
+    commentInput.focus();
+}
+
+// Fonction pour aimer un commentaire
+function likeComment(button) {
+    const heartIcon = button.querySelector('i');
+    
+    // Basculer entre "aimé" et "non aimé"
+    if (heartIcon.classList.contains('far')) {
+        heartIcon.classList.remove('far');
+        heartIcon.classList.add('fas');
+        heartIcon.style.color = '#EF4444'; // Couleur rouge
+    } else {
+        heartIcon.classList.remove('fas');
+        heartIcon.classList.add('far');
+        heartIcon.style.color = '';
+    }
+}
+
+// Fonction pour répondre à un commentaire (optionnel)
+function replyToComment(button) {
+    const commentItem = button.closest('.comment-item');
+    const commentText = commentItem.querySelector('p').textContent;
+    
+    // Pré-remplir la zone de texte avec "@username"
+    const username = commentItem.querySelector('h4').textContent;
+    const commentInput = document.getElementById('commentInput');
+    
+    // Si l'utilisateur n'est pas déjà en train de répondre
+    if (!commentInput.value.includes(`@${username}`)) {
+        commentInput.value = `@${username} `;
+        commentInput.focus();
+    }
+}
+
+// Permettre d'envoyer un commentaire avec la touche Enter (en maintenant Ctrl ou Shift)
+document.getElementById('commentInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.shiftKey)) {
+        e.preventDefault(); // Empêcher le saut de ligne
+        addComment();
+    }
+});
+    </script> 
+</body>
+</html>
