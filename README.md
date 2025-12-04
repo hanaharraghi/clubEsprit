@@ -5,8 +5,8 @@
 ## 👥 **Membres de l’équipe & Responsabilités**
 | Nom                   | Responsabilités                                                                                      |
 | --------------------- | ---------------------------------------------------------------------------------------------------- |
-| **Hana Harraghi**     | Pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Intégration Tailwind + design Cosmo Spirit.    |
-| **Houssem Chaouachi** | Co-développement des pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Navigation et logique JS. |
+| **Hana Harraghi**     | Pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Intégration Tailwind + design Cosmo Spirit.Navigation et logique JS.    |
+| **Houssem Chaouachi** |Pages *Club*, *My Club*, *Calendar*, *Home*, *Login*. Intégration Tailwind + design Cosmo Spirit.Navigation et logique JS. |
 | **Ilef Ben Taleb**    | Pages *Competition*, *Profile*, *Events*. UI/UX, interactions JS.                                    |
 | **Arwa Ben Amar**     | Pages *Competition*, *Profile*, *Events*. Accessibilité, animations CSS/JS.                          |
 
