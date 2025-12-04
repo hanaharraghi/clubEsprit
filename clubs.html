@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clubs – Clubs ESPRIT</title>
+
+  <!-- FONT AWESOME -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <!-- TAILWIND -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-sans bg-[#F5F1F2]">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="w-full bg-[#6F1425] text-white shadow-md">
+    <div class="w-full px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <img src="logo.png" class="h-14 object-contain" alt="Logo">
+        </div>
+      </div>
+
+      <!-- Menu desktop -->
+      <nav class="hidden lg:block">
+        <ul class="flex items-center gap-10 text-[15px] font-medium">
+
+          <li>
+            <a href="home.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Home
+            </a>
+          </li>
+
+          <li class="relative">
+            <a href="clubs.html" class="text-[#F9BF29] cursor-pointer">
+              Clubs
+            </a>
+            <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-[#F9BF29]"></span>
+          </li>
+
+          <li>
+            <a href="events.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Events
+            </a>
+          </li>
+
+          <li>
+            <a href="calender.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Calendar
+            </a>
+          </li>
+
+          <li>
+            <a href="competition.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Competition
+            </a>
+          </li>
+
+          <a href="myClubs.html" class="hover:text-[#F9BF29] !text-[18px] cursor-pointer">
+  My Clubs
+</a>
+
+
+        </ul>
+      </nav>
+
+      <!-- Right side (user + hamburger) -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 border border-white/60 rounded-full flex items-center justify-center">
+          <i class="fa-regular fa-user text-lg"></i>
+        </div>
+
+        <!-- Hamburger mobile -->
+        <button
+          id="openMenu"
+          class="lg:hidden w-9 h-9 rounded-full border border-white/60 flex items-center justify-center"
+          aria-label="Open menu"
+        >
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MOBILE MENU (SLIDE RIGHT) ========== -->
+  <div
+    id="mobileBackdrop"
+    class="fixed inset-0 bg-black/40 z-40 hidden"
+  >
+    <div
+      id="mobileMenu"
+      class="fixed right-0 top-0 h-full w-64 bg-[#6F1425] text-white shadow-xl transform translate-x-full transition-transform duration-200 ease-out flex flex-col"
+    >
+      <div class="flex items-center justify-between px-4 py-3 border-b border-white/20">
+        <div class="flex items-center gap-2">
+          <div class="h-10 w-auto sm:h-12 md:h-16 lg:h-20 flex items-center">
+            <img src="logo.png" alt="Logo" class="h-full object-contain">
+          </div>
+        </div>
+        <button id="closeMenu" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <nav class="flex-1 px-4 py-4 text-sm space-y-3">
+        <a class="block py-2 border-b border-white/10" href="home.html">Home</a>
+        <a class="block py-2 border-b border-white/10 text-[#F9BF29]" href="clubs.html">Clubs</a>
+        <a class="block py-2 border-b border-white/10" href="events.html">Events</a>
+        <a class="block py-2 border-b border-white/10" href="calender.html">Calendar</a>
+        <a class="block py-2 border-b border-white/10" href="competition.html">Competition</a>
+        <a class="block py-2 border-b border-white/10" href="myClubs.html">My Clubs</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="w-full px-4 sm:px-6 lg:px-10 py-8 lg:py-10">
+    <div class="max-w-[1200px] mx-auto">
+
+      <!-- ===== SEARCH BAR + FILTER TABS ===== -->
+      <section class="w-full mb-8 flex flex-col items-center gap-6">
+
+        <!-- Search bar centrée -->
+        <div class="bg-white rounded-3xl shadow-md px-6 py-4 w-full max-w-[900px]">
+          <div class="flex items-center gap-4">
+            <div class="relative flex-1">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-base"></i>
+              <input
+                type="text"
+                placeholder="Search clubs by name, interest or keyword..."
+                class="w-full pl-10 pr-10 py-3 rounded-full bg-[#F4F4F8] text-sm outline-none focus:ring-1 focus:ring-[#F9BF29]"
+              />
+            </div>
+
+            <!-- bouton config -->
+            <button
+              class="hidden sm:flex items-center justify-center w-11 h-11 rounded-full border border-gray-300 bg-white hover:bg-gray-100 shadow-sm">
+              <i class="fa-solid fa-gear text-gray-700 text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap justify-center items-center gap-3 text-[13px] max-w-[900px]">
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-[#6F1425] text-white px-5 py-2 rounded-full text-xs font-medium shadow-sm"
+            data-filter="all">
+            <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+            All
+          </button>
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-white px-5 py-2 rounded-full text-xs font-medium border border-gray-200 text-gray-700 hover:bg-gray-100"
+            data-filter="technology">
+            <i class="fa-solid fa-microchip text-sm"></i>
+            Technology
+          </button>
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-white px-5 py-2 rounded-full text-xs font-medium border border-gray-200 text-gray-700 hover:bg-gray-100"
+            data-filter="culture">
+            <i class="fa-solid fa-globe text-sm"></i>
+            Culture
+          </button>
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-white px-5 py-2 rounded-full text-xs font-medium border border-gray-200 text-gray-700 hover:bg-gray-100"
+            data-filter="sports">
+            <i class="fa-solid fa-basketball text-sm"></i>
+            Sports
+          </button>
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-white px-5 py-2 rounded-full text-xs font-medium border border-gray-200 text-gray-700 hover:bg-gray-100"
+            data-filter="arts">
+            <i class="fa-solid fa-palette text-sm"></i>
+            Arts
+          </button>
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-white px-5 py-2 rounded-full text-xs font-medium border border-gray-200 text-gray-700 hover:bg-gray-100"
+            data-filter="volunteering">
+            <i class="fa-solid fa-hand-holding-heart text-sm"></i>
+            Volunteering
+          </button>
+
+          <button
+            class="filter-btn flex items-center gap-2 bg-white px-5 py-2 rounded-full text-xs font-medium border border-gray-200 text-gray-700 hover:bg-gray-100"
+            data-filter="science">
+            <i class="fa-solid fa-flask text-sm"></i>
+            Science
+          </button>
+
+        </div>
+      </section>
+
+      <!-- ===== GRID: CLUBS + SIDEBAR ===== -->
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- ========== LEFT : CLUBS LIST ========== -->
+        <div class="lg:col-span-2 space-y-5">
+
+          <!-- Title -->
+          <div class="flex items-baseline justify-between">
+            <div>
+              <h2 class="text-[15px] sm:text-[16px] font-semibold text-[#373737]">Discover Clubs</h2>
+              <p class="text-[11px] text-gray-500 mt-[2px]">9 clubs found</p>
+            </div>
+          </div>
+
+          <!-- Clubs cards grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- ========== CARD 1 : Tech Innovators ========== -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="technology">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-[#F6A623] via-[#F05555] to-[#2E86DE] border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Tech Innovators</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        technology
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        342 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <span
+                  class="inline-flex items-center gap-1 text-[11px] px-3 py-[4px] rounded-full bg-[#FFD7DF] text-[#D94B5F]">
+                  <i class="fa-solid fa-fire-flame-curved text-[11px]"></i>
+                  Trending
+                </span>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Tech Innovators is a community of passionate developers, designers and tech enthusiasts exploring emerging technologies.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Cultural Exchange -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="culture">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-orange-400 via-pink-500 to-rose-400 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Cultural Exchange</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        culture
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        258 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <span
+                  class="inline-flex items-center gap-1 text-[11px] px-3 py-[4px] rounded-full bg-[#FFD7DF] text-[#D94B5F]">
+                  <i class="fa-solid fa-fire-flame-curved text-[11px]"></i>
+                  Trending
+                </span>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Celebrating diversity through cultural events, language exchange, and international evenings.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Sport Excellence -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="sports">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-lime-400 via-emerald-500 to-cyan-500 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Sport Excellence</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        sports
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        342 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <span
+                  class="inline-flex items-center gap-1 text-[11px] px-3 py-[4px] rounded-full bg-[#FFD7DF] text-[#D94B5F]">
+                  <i class="fa-solid fa-fire-flame-curved text-[11px]"></i>
+                  Trending
+                </span>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Training champions and promoting physical fitness through various sports activities.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Art Collective -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="arts">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-fuchsia-500 via-purple-500 to-indigo-500 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Art Collective</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        arts
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        187 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                A creative space for artists to express themselves through painting, sculpture, and design.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Code Warriors -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="technology">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-slate-800 via-slate-600 to-sky-500 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Code Warriors</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        technology
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        264 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Competitive programming and algorithm mastery for aspiring software engineers.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Community Helpers -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="volunteering">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Community Helpers</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        volunteering
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        342 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Making a difference through volunteering and community service initiatives.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Music Harmony -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="culture">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-red-500 via-orange-400 to-yellow-400 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Music Harmony</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        culture
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        342 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                From classical to contemporary, exploring music through performance and collaboration.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Science Explorers -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="science">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-sky-400 via-teal-400 to-emerald-500 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Science Explorers</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        science
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        242 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Conducting experiments and exploring the wonders of science and research.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Drama Society -->
+            <article
+              class="club-card bg-white rounded-[26px] shadow-sm px-5 pt-4 pb-4 flex flex-col gap-4 border border-[#E7DADA] hover:shadow-lg hover:-translate-y-1 transition-transform duration-200"
+              data-category="arts">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex gap-3">
+                  <div class="w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-purple-500 via-rose-500 to-orange-400 border border-[#E2D5D5]"></div>
+                  <div>
+                    <h3 class="club-name text-[14px] font-semibold text-[#222] leading-tight">Drama Society</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span
+                        class="club-category-label px-2.5 py-[2px] rounded-full border border-[#2E6EDC] bg-white text-[10px] text-[#1F5ED2] leading-none">
+                        arts
+                      </span>
+                      <span class="club-members flex items-center gap-1 text-[10px] text-[#B1B1B1]">
+                        <i class="fa-solid fa-user text-[9px]"></i>
+                        142 members
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="club-about text-[12px] text-gray-700 leading-relaxed">
+                Bringing stories to life through theatrical performances and dramatic arts.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <button
+                  class="like-btn w-10 h-10 rounded-full border-2 border-[#B6B0B0] flex items-center justify-center text-gray-700 hover:bg-rose-50 transition">
+                  <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+                <div class="flex gap-3">
+                  <button
+                    class="view-profile-btn px-6 py-2 rounded-full bg-[#6F1425] text-white text-[11px] font-medium border border-[#6F1425]">
+                    View Profile
+                  </button>
+                  <button
+                    class="join-btn px-6 py-2 rounded-full bg-white text-[#6F1425] text-[11px] font-medium border border-[#6F1425]">
+                    Join Club
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- ========== RIGHT : SIDEBAR ========== -->
+        <aside class="space-y-6 mt-16">
+
+          <!-- Top Clubs This Month -->
+          <div
+            class="rounded-[28px] overflow-hidden shadow-md px-5 py-5 text-white
+                   bg-gradient-to-b from-[#6F1425] via-[#821625] to-[#C57A2D]">
+
+            <div class="flex items-center gap-3 mb-5">
+              <i class="fa-solid fa-trophy text-2xl text-[#F9BF29]"></i>
+              <h3 class="text-[15px] font-semibold">Top Clubs This Month</h3>
+            </div>
+
+            <div class="space-y-4 text-[12px]">
+
+              <div class="bg-[#B66F86]/90 rounded-2xl px-4 py-3">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full bg-[#F9BF29] flex items-center justify-center text-[#6F1425]">
+                      <i class="fa-solid fa-medal text-xs"></i>
+                    </span>
+                    <div
+                      class="w-10 h-10 rounded-full overflow-hidden
+                             bg-gradient-to-br from-[#F6A623] via-[#F05555] to-[#2E86DE]">
+                    </div>
+                    <div>
+                      <p class="text-[11px] font-semibold leading-tight">Tech Innovators</p>
+                      <p class="text-[10px] text-[#FCE7F2] leading-tight">342 members</p>
+                    </div>
+                  </div>
+                  <span class="text-[10px] opacity-0">92%</span>
+                </div>
+
+                <div class="mt-3">
+                  <div class="flex items-center justify-between text-[10px] mb-1">
+                    <span>Activity</span>
+                    <span>92%</span>
+                  </div>
+                  <div class="h-[4px] rounded-full bg-[#ECC4D7] overflow-hidden">
+                    <div class="h-full w-[92%] bg-[#121111]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-[#B87986]/90 rounded-2xl px-4 py-3">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full bg-[#E2BACF] flex items-center justify-center text-[#6F1425]">
+                      <i class="fa-solid fa-medal text-xs"></i>
+                    </span>
+                    <div
+                      class="w-10 h-10 rounded-full overflow-hidden
+                             bg-gradient-to-br from-[#F592C3] via-[#FBD86B] to-[#8C5BD3]">
+                    </div>
+                    <div>
+                      <p class="text-[11px] font-semibold leading-tight">Cultural Exchange</p>
+                      <p class="text-[10px] text-[#FCE7F2] leading-tight">298 members</p>
+                    </div>
+                  </div>
+                  <span class="text-[10px] opacity-0">88%</span>
+                </div>
+
+                <div class="mt-3">
+                  <div class="flex items-center justify-between text-[10px] mb-1">
+                    <span>Activity</span>
+                    <span>88%</span>
+                  </div>
+                  <div class="h-[4px] rounded-full bg-[#EDD0D8] overflow-hidden">
+                    <div class="h-full w-[88%] bg-[#121111]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-[#C78556]/95 rounded-2xl px-4 py-3">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full bg-[#F9BF29] flex items-center justify-center text-[#6F1425]">
+                      <i class="fa-solid fa-medal text-xs"></i>
+                    </span>
+                    <div
+                      class="w-10 h-10 rounded-full overflow-hidden
+                             bg-gradient-to-br from-[#F5C947] via-[#F59238] to-[#4FB36F]">
+                    </div>
+                    <div>
+                      <p class="text-[11px] font-semibold leading-tight">Sports Excellence</p>
+                      <p class="text-[10px] text-[#FCE7F2] leading-tight">275 members</p>
+                    </div>
+                  </div>
+                  <span class="text-[10px] opacity-0">80%</span>
+                </div>
+
+                <div class="mt-3">
+                  <div class="flex items-center justify-between text-[10px] mb-1">
+                    <span>Activity</span>
+                    <span>80%</span>
+                  </div>
+                  <div class="h-[4px] rounded-full bg-[#EECFAE] overflow-hidden">
+                    <div class="h-full w-[80%] bg-[#121111]"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Upcoming Events / Reminders -->
+          <div class="bg-[#FFFFFF] rounded-[22px] p-4 space-y-4 border border-[#D0E6FF]">
+
+            <div class="bg-white rounded-3xl shadow-md border border-gray-200 px-4 pt-4 pb-3">
+              <p class="text-[13px] font-semibold text-[#222] mb-1">Tech Talk: AI in Education</p>
+              <p class="text-[11px] text-gray-500 mb-3">Tech Innovators</p>
+
+              <div class="flex items-center gap-2 text-[11px] text-gray-600 mb-3">
+                <i class="fa-regular fa-calendar text-xs"></i>
+                <span>Nov 15, 2025</span>
+                <span class="mx-1">•</span>
+                <i class="fa-regular fa-clock text-xs"></i>
+                <span>3:00 PM</span>
+              </div>
+
+              <button
+                class="w-full mt-1 flex items-center justify-center gap-2 rounded-full bg-[#6F1425] text-white text-[11px] py-2.5 font-medium">
+                <i class="fa-regular fa-bell text-xs"></i>
+                set reminder
+              </button>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-md border border-gray-200 px-4 pt-4 pb-3">
+              <p class="text-[13px] font-semibold text-[#222] mb-1">Community Clean-Up Day</p>
+              <p class="text-[11px] text-gray-500 mb-3">Community Helpers</p>
+
+              <div class="flex items-center gap-2 text-[11px] text-gray-600 mb-3">
+                <i class="fa-regular fa-calendar text-xs"></i>
+                <span>Nov 20, 2025</span>
+                <span class="mx-1">•</span>
+                <i class="fa-regular fa-clock text-xs"></i>
+                <span>10:00 AM</span>
+              </div>
+
+              <button
+                class="w-full mt-1 flex items-center justify-center gap-2 rounded-full bg-[#6F1425] text-white text-[11px] py-2.5 font-medium">
+                <i class="fa-regular fa-bell text-xs"></i>
+                set reminder
+              </button>
+            </div>
+
+          </div>
+
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="w-full bg-[#6F1425] text-white mt-16">
+    <div class="max-w-[1500px] mx-auto relative px-8 md:px-16 pt-14 pb-8">
+
+      <div class="flex flex-col md:flex-row gap-16 justify-between">
+
+        <div class="w-full md:w-1/3">
+
+          <div class="flex items-center gap-3 mb-4">
+             <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <img src="logo.png" class="h-14 object-contain" alt="Logo">
+        </div>
+      </div>
+            
+          </div>
+
+          <p class="text-[14px] text-white/85 max-w-sm">
+            Connecting students with amazing clubs and communities at ESPRIT University.
+          </p>
+
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 w-full md:w-2/3 text-[14px]">
+
+          <div>
+            <h4 class="font-semibold mb-3">About</h4>
+            <ul class="space-y-2 text-white/80">
+              <li>Our Story</li>
+              <li>Team</li>
+              <li>Careers</li>
+              <li>Press</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-3">Contact</h4>
+            <ul class="space-y-2 text-white/80">
+              <li>Support</li>
+              <li>Feedback</li>
+              <li>Partnerships</li>
+              <li>Media</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-3">Legal</h4>
+            <ul class="space-y-2 text-white/80">
+              <li>Terms of Service</li>
+              <li>Privacy Policy</li>
+              <li>Cookie Policy</li>
+              <li>Guidelines</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="mt-10 pt-3 border-t border-white/25 flex items-center justify-between text-[12px] text-white/75">
+
+        <p>© 2025 Clubs ESPRIT. All rights reserved.</p>
+
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============== CLUB PROFILE PANEL (VIEW PROFILE) ============== -->
+  <div id="profileBackdrop" class="fixed inset-0 bg-black/40 hidden z-50">
+    <div class="w-full h-full flex justify-end">
+
+      <!-- Side panel -->
+      <div
+        id="profilePanel"
+        class="bg-white w-full max-w-[380px] h-full shadow-xl transform translate-x-full transition-transform duration-200 ease-out flex flex-col"
+      >
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-200"></div>
+            <div>
+              <p id="profileName" class="text-sm font-semibold">Tech Innovators</p>
+              <p id="profileMembers" class="text-xs text-gray-500">342 members</p>
+            </div>
+          </div>
+          <button id="closeProfile" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-200 text-xs font-medium">
+          <button class="flex-1 py-2 border-b-2 border-[#6F1425] text-[#6F1425]">About</button>
+          <button class="flex-1 py-2 text-gray-500">Members</button>
+          <button class="flex-1 py-2 text-gray-500">Events</button>
+          <button class="flex-1 py-2 text-gray-500">Gallery</button>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto px-5 py-4 text-sm">
+          <p class="font-semibold text-[13px] mb-2">About</p>
+          <p id="profileAbout" class="text-[12px] text-gray-700 leading-relaxed mb-4">
+            Tech Innovators is a community of passionate developers, designers and tech enthusiasts exploring emerging technologies.
+          </p>
+
+          <p class="font-semibold text-[13px] mb-1">Category</p>
+          <span
+            id="profileCategory"
+            class="inline-flex items-center px-3 py-[3px] rounded-full bg-[#EAF2FF] text-[11px] text-[#2455C5]">
+            Technology
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script>
+    // ---- MOBILE MENU ----
+    const openMenu = document.getElementById("openMenu");
+    const closeMenu = document.getElementById("closeMenu");
+    const mobileBackdrop = document.getElementById("mobileBackdrop");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    if (openMenu && closeMenu && mobileBackdrop && mobileMenu) {
+      openMenu.addEventListener("click", () => {
+        mobileBackdrop.classList.remove("hidden");
+        mobileMenu.classList.remove("translate-x-full");
+      });
+
+      const closeMobile = () => {
+        mobileMenu.classList.add("translate-x-full");
+        setTimeout(() => mobileBackdrop.classList.add("hidden"), 200);
+      };
+
+      closeMenu.addEventListener("click", closeMobile);
+      mobileBackdrop.addEventListener("click", (e) => {
+        if (e.target === mobileBackdrop) closeMobile();
+      });
+    }
+
+    // ---- CLUB FILTERS ----
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const clubCards = document.querySelectorAll(".club-card");
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const filter = btn.getAttribute("data-filter");
+
+        filterButtons.forEach(b => {
+          b.classList.remove("bg-[#6F1425]", "text-white", "shadow-sm");
+          b.classList.add("bg-white", "text-gray-700", "border", "border-gray-200");
+        });
+
+        btn.classList.remove("bg-white", "text-gray-700", "border", "border-gray-200");
+        btn.classList.add("bg-[#6F1425]", "text-white", "shadow-sm");
+
+        clubCards.forEach(card => {
+          const category = card.getAttribute("data-category");
+          if (filter === "all" || category === filter) {
+            card.classList.remove("hidden");
+          } else {
+            card.classList.add("hidden");
+          }
+        });
+      });
+    });
+
+    // ---- LIKE BUTTONS ----
+    document.querySelectorAll(".like-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const icon = btn.querySelector("i");
+        if (icon.classList.contains("fa-regular")) {
+          icon.classList.remove("fa-regular");
+          icon.classList.add("fa-solid", "text-red-600");
+          btn.classList.remove("border-[#B6B0B0]");
+          btn.classList.add("border-red-400", "bg-rose-50");
+        } else {
+          icon.classList.add("fa-regular");
+          icon.classList.remove("fa-solid", "text-red-600");
+          btn.classList.add("border-[#B6B0B0]");
+          btn.classList.remove("border-red-400", "bg-rose-50");
+        }
+      });
+    });
+
+    // ---- JOIN BUTTONS ----
+    document.querySelectorAll(".join-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const joined = btn.dataset.joined === "true";
+        if (!joined) {
+          btn.textContent = "Joined";
+          btn.classList.remove("bg-white", "text-[#6F1425]");
+          btn.classList.add("bg-[#6F1425]", "text-white");
+          btn.dataset.joined = "true";
+        } else {
+          btn.textContent = "Join Club";
+          btn.classList.add("bg-white", "text-[#6F1425]");
+          btn.classList.remove("bg-[#6F1425]", "text-white");
+          btn.dataset.joined = "false";
+        }
+      });
+    });
+
+    // ---- VIEW PROFILE PANEL ----
+    const profileBackdrop = document.getElementById("profileBackdrop");
+    const profilePanel = document.getElementById("profilePanel");
+    const closeProfile = document.getElementById("closeProfile");
+
+    const profileName = document.getElementById("profileName");
+    const profileMembers = document.getElementById("profileMembers");
+    const profileAbout = document.getElementById("profileAbout");
+    const profileCategory = document.getElementById("profileCategory");
+
+    function openProfile(card) {
+      const name = card.querySelector(".club-name")?.textContent || "Club";
+      const members = card.querySelector(".club-members")?.textContent || "";
+      const about = card.querySelector(".club-about")?.textContent || "";
+      const categoryRaw = card.getAttribute("data-category") || "";
+      const category = categoryRaw.charAt(0).toUpperCase() + categoryRaw.slice(1);
+
+      profileName.textContent = name;
+      profileMembers.textContent = members;
+      profileAbout.textContent = about;
+      profileCategory.textContent = category;
+
+      profileBackdrop.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        profilePanel.classList.remove("translate-x-full");
+      });
+    }
+
+    function closeProfilePanel() {
+      profilePanel.classList.add("translate-x-full");
+      setTimeout(() => {
+        profileBackdrop.classList.add("hidden");
+      }, 200);
+    }
+
+    document.querySelectorAll(".view-profile-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".club-card");
+        if (card) openProfile(card);
+      });
+    });
+
+    closeProfile.addEventListener("click", closeProfilePanel);
+
+    profileBackdrop.addEventListener("click", (e) => {
+      if (e.target === profileBackdrop) closeProfilePanel();
+    });
+  </script>
+
+</body>
+</html>

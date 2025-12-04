@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events Calendar</title>
+
+  <!-- FONT AWESOME -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <!-- TAILWIND -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-sans bg-[#F5F1F2]">
+
+  <!-- ================= NAVBAR (même que My Clubs) ================= -->
+  <header class="w-full bg-[#6F1425] text-white shadow-md">
+<div class="w-full px-6 sm:px-8 lg:px-15 py-8 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <img src="logo.png" class="h-10 object-contain" alt="Clubs Esprit Logo">
+        </div>
+      </div>
+
+      <!-- Menu desktop -->
+      <nav class="hidden lg:block">
+        <ul class="flex items-center gap-10 text-[15px] font-medium">
+
+          <li>
+            <a href="home.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Home
+            </a>
+          </li>
+
+          <li>
+            <a href="clubs.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Clubs
+            </a>
+          </li>
+
+          <li>
+            <a href="events.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Events
+            </a>
+          </li>
+
+          <!-- ICI : page active = Calendar -->
+          <li class="relative">
+            <a href="calender.html" class="text-[#F9BF29] cursor-pointer">
+              Calendar
+            </a>
+            <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-[#F9BF29]"></span>
+          </li>
+
+          <li>
+            <a href="competition.html" class="hover:text-[#F9BF29] cursor-pointer">
+              Competition
+            </a>
+          </li>
+
+          <li>
+            <a href="myClubs.html" class="hover:text-[#F9BF29] cursor-pointer">
+              My Clubs
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+
+      <!-- Right side (user + hamburger) -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 border border-white/60 rounded-full flex items-center justify-center">
+          <i class="fa-regular fa-user text-lg"></i>
+        </div>
+
+        <!-- Hamburger mobile -->
+        <button
+          id="openMenu"
+          class="lg:hidden w-9 h-9 rounded-full border border-white/60 flex items-center justify-center"
+          aria-label="Open menu"
+        >
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MOBILE MENU (même style que My Clubs) ========== -->
+  <div
+    id="mobileBackdrop"
+    class="fixed inset-0 bg-black/40 z-40 hidden"
+  >
+    <div
+      id="mobileMenu"
+      class="fixed right-0 top-0 h-full w-64 bg-[#6F1425] text-white shadow-xl transform translate-x-full transition-transform duration-200 ease-out flex flex-col"
+    >
+      <div class="flex items-center justify-between px-4 py-3 border-b border-white/20">
+        <div class="flex items-center gap-2">
+          <div class="h-10 w-auto sm:h-12 md:h-16 lg:h-20 flex items-center">
+            <img src="logo.png" alt="Logo" class="h-full object-contain">
+          </div>
+        </div>
+        <button id="closeMenu" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <nav class="flex-1 px-4 py-4 text-sm space-y-3">
+        <a class="block py-2 border-b border-white/10" href="home.html">Home</a>
+        <a class="block py-2 border-b border-white/10" href="clubs.html">Clubs</a>
+        <a class="block py-2 border-b border-white/10" href="events.html">Events</a>
+        <a class="block py-2 border-b border-white/10 text-[#F9BF29]" href="calender.html">Calendar</a>
+        <a class="block py-2 border-b border-white/10" href="competition.html">Competition</a>
+        <a class="block py-2 border-b border-white/10" href="myClubs.html">My Clubs</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ================= MAIN ================= -->
+  <main class="min-h-screen">
+
+    <!-- ================= HERO / HEADER ================= -->
+    <section class="w-full bg-gradient-to-r from-[#BC7224] via-[#8B1D22] to-[#6F1425] text-white py-10 px-6 lg:px-12">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+
+        <!-- GAUCHE : titre + 4 cartes -->
+        <div class="w-full lg:w-auto">
+          <h2 class="text-3xl font-bold mb-1">Events Calendar</h2>
+          <p class="text-white/90 mb-8 text-[15px]">
+            View all university events in one place. Never miss what matters.
+          </p>
+
+          <!-- GRID RESPONSIVE DES CARTES -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+
+            <!-- CARD 1 -->
+            <div class="bg-white/15 backdrop-blur-md rounded-3xl p-6 shadow-lg flex flex-col justify-center items-center text-center">
+              <div class="flex items-center gap-3 mb-2">
+                <i class="fa-regular fa-calendar text-2xl"></i>
+                <span class="text-2xl font-bold">10</span>
+              </div>
+              <span class="text-sm text-white/80">Total Events</span>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white/15 backdrop-blur-md rounded-3xl p-6 shadow-lg flex flex-col justify-center items-center text-center">
+              <div class="flex items-center gap-3 mb-2">
+                <i class="fa-solid fa-users text-2xl"></i>
+                <span class="text-2xl font-bold">1505</span>
+              </div>
+              <span class="text-sm text-white/80">Attendees</span>
+            </div>
+
+            <!-- CARD 3 (ROUGE) -->
+            <div class="bg-white/15 backdrop-blur-md rounded-3xl p-6 shadow-lg flex flex-col justify-center items-center text-center">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="w-3 h-3 bg-red-400 rounded-full"></span>
+                <span class="text-2xl font-bold">1</span>
+              </div>
+              <span class="text-sm text-white/90">Live Now</span>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="bg-white/15 backdrop-blur-md rounded-3xl p-6 shadow-lg flex flex-col justify-center items-center text-center">
+              <div class="flex items-center gap-3 mb-2">
+                <i class="fa-solid fa-arrow-trend-up text-2xl"></i>
+                <span class="text-2xl font-bold">9</span>
+              </div>
+              <span class="text-sm text-white/80">Upcoming</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DROITE : grosse carte graphique, contenu centré -->
+        <div class="w-full lg:w-[420px] flex justify-center lg:justify-end">
+          <div
+            class="bg-white/15 backdrop-blur-md rounded-[32px] shadow-2xl 
+           w-full max-w-md h-auto py-6 flex flex-col items-center 
+           justify-center gap-4 px-4 sm:px-6 lg:px-8">
+
+            <p class="text-sm sm:text-base font-semibold text-white text-center">
+              Events growth this month
+            </p>
+
+            <svg viewBox="0 0 120 40" class="w-full max-w-[260px]">
+              <polyline
+                fill="none"
+                stroke="#F8D96D"
+                stroke-width="3"
+                points="0,25 20,23 40,27 60,20 80,18 100,19 120,15" />
+            </svg>
+
+            <div class="flex justify-center gap-2">
+              <span class="w-2 h-2 bg-white rounded-full opacity-60"></span>
+              <span class="w-2 h-2 bg-white rounded-full"></span>
+              <span class="w-2 h-2 bg-white rounded-full opacity-40"></span>
+              <span class="w-2 h-2 bg-white rounded-full opacity-40"></span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <section class="w-full px-2 sm:px-4 lg:px-10 mt-8 mb-10">
+      <!-- On large écrans: 2/3 calendrier – 1/3 sidebar ; sur mobile : une colonne -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-10">
+
+        <!-- ========== CALENDAR MASTER CONTAINER ========== -->
+        <div class="xl:col-span-2 space-y-4">
+
+          <!-- ====== TOP BAR (shared across all views) ====== -->
+          <div class="bg-[#F4F4FF] rounded-t-[32px] p-4 sm:p-5 shadow-sm border-x border-t border-[#E4E7FF]">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+              <!-- Month switch -->
+              <div class="flex flex-wrap items-center gap-3">
+                <div class="flex items-center gap-2 bg-white rounded-full px-3 py-1 border border-[#E4E7FF]">
+                  <button
+                    class="w-6 h-6 rounded-full border border-[#E4E7FF] flex items-center justify-center text-xs text-gray-500">
+                    <i class="fa-solid fa-chevron-left"></i>
+                  </button>
+
+                  <span class="text-sm font-semibold text-[#3A3F73]">November 2025</span>
+
+                  <button
+                    class="w-6 h-6 rounded-full border border-[#E4E7FF] flex items-center justify-center text-xs text-gray-500">
+                    <i class="fa-solid fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <!-- Today -->
+                <button class="text-xs px-4 py-1 rounded-full border border-[#2F55FF] text-[#2F55FF] bg-white">
+                  Today
+                </button>
+              </div>
+
+              <!-- Filters + view mode -->
+              <div class="flex flex-wrap items-center gap-3">
+
+                <!-- Categories -->
+                <div
+                  class="flex items-center gap-2 bg-white rounded-full px-3 py-1 border border-[#E4E7FF] text-xs cursor-pointer">
+                  <span class="text-gray-500"><i class="fa-solid fa-filter mr-1"></i>All Categories</span>
+                  <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+                </div>
+
+                <!-- View mode -->
+                <div class="flex items-center bg-white rounded-full border border-[#E4E7FF] text-xs overflow-hidden">
+                  <button id="tabMonth" class="calendar-tab px-4 py-1 bg-[#2F55FF] text-white font-semibold">
+                    Month
+                  </button>
+                  <button id="tabWeek" class="calendar-tab px-4 py-1 text-gray-500 hover:bg-gray-50">
+                    Week
+                  </button>
+                  <button id="tabDay" class="calendar-tab px-4 py-1 text-gray-500 hover:bg-gray-50">
+                    Day
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ================== CALENDAR VIEWS ================== -->
+
+          <!-- ---------- MONTH VIEW ---------- -->
+          <div id="viewMonth">
+            <div class="bg-[#F4F4FF] rounded-b-[32px] p-3 sm:p-5 shadow-sm border-x border-b border-[#E4E7FF]">
+              <div class="bg-white rounded-[28px] p-3 sm:p-4 border border-[#E4E7FF] overflow-x-auto">
+                <div class="min-w-[720px]">
+
+                  <!-- DAYS HEADER -->
+                  <div class="grid grid-cols-7 text-center text-[12px] font-semibold text-[#8A91C5] mb-2">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                  </div>
+
+                  <!-- DAYS CELLS -->
+                  <div class="grid grid-cols-7 gap-3 text-[12px] text-[#525A7A]">
+
+                    <!-- 1 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">1</span>
+                    </div>
+
+                    <!-- 2 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">2</span>
+                    </div>
+
+                    <!-- 3 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">3</span>
+                    </div>
+
+                    <!-- 4 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">4</span>
+                    </div>
+
+                    <!-- 5 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">5</span>
+                    </div>
+
+                    <!-- 6 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">6</span>
+                    </div>
+
+                    <!-- 7 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">7</span>
+                    </div>
+
+                    <!-- 8 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">8</span>
+                    </div>
+
+                    <!-- 9 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">9</span>
+                    </div>
+
+                    <!-- 10 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">10</span>
+                    </div>
+
+                    <!-- 11 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">11</span>
+                    </div>
+
+                    <!-- 12 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">12</span>
+                    </div>
+
+                    <!-- 13 selected -->
+                    <div
+                      class="h-24 rounded-[20px] border-2 border-[#2F55FF] bg-white flex flex-col justify-between p-2">
+                      <div class="flex justify-end">
+                        <span
+                          class="w-6 h-6 flex items-center justify-center text-[11px] rounded-full bg-[#2F55FF] text-white">
+                          13
+                        </span>
+                      </div>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-pink-100 text-pink-700 text-[10px] font-medium self-start">
+                        Contemp…
+                      </span>
+                    </div>
+
+                    <!-- 14 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">14</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-blue-50 text-blue-600 text-[10px] font-medium self-start">
+                        Morning …
+                      </span>
+                    </div>
+
+                    <!-- 15 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">15</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-purple-50 text-purple-600 text-[10px] font-medium self-start">
+                        AI & Mac…
+                      </span>
+                    </div>
+
+                    <!-- 16 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">16</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-amber-50 text-amber-600 text-[10px] font-medium self-start">
+                        Live Jazz …
+                      </span>
+                    </div>
+
+                    <!-- 17 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">17</span>
+                    </div>
+
+                    <!-- 18 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">18</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-blue-50 text-blue-600 text-[10px] font-medium self-start">
+                        Inter-Uni…
+                      </span>
+                    </div>
+
+                    <!-- 19 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">19</span>
+                    </div>
+
+                    <!-- 20 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">20</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-green-50 text-green-600 text-[10px] font-medium self-start">
+                        Communi…
+                      </span>
+                    </div>
+
+                    <!-- 21 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">21</span>
+                    </div>
+
+                    <!-- 22 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">22</span>
+                    </div>
+
+                    <!-- 23 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">23</span>
+                    </div>
+
+                    <!-- 24 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">24</span>
+                    </div>
+
+                    <!-- 25 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">25</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-cyan-50 text-cyan-600 text-[10px] font-medium self-start">
+                        Science F…
+                      </span>
+                    </div>
+
+                    <!-- 26 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">26</span>
+                    </div>
+
+                    <!-- 27 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">27</span>
+                    </div>
+
+                    <!-- 28 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">28</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-amber-50 text-amber-600 text-[10px] font-medium self-start">
+                        Cultural F…
+                      </span>
+                    </div>
+
+                    <!-- 29 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">29</span>
+                    </div>
+
+                    <!-- 30 -->
+                    <div
+                      class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white flex flex-col justify-between p-2">
+                      <span class="text-xs text-gray-600">30</span>
+                      <span
+                        class="inline-block mt-auto px-2 py-[2px] rounded-full bg-purple-50 text-purple-600 text-[10px] font-medium self-start">
+                        Startup Pi…
+                      </span>
+                    </div>
+
+                    <div class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white"></div>
+                    <div class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white"></div>
+                    <div class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white"></div>
+                    <div class="h-24 rounded-[20px] border border-[#E4E7FF] bg-white"></div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ---------- WEEK VIEW ---------- -->
+          <div id="viewWeek" class="hidden">
+            <div class="bg-[#F4F4FF] rounded-b-[32px] p-3 sm:p-5 shadow-sm border-x border-b border-[#E4E7FF]">
+              <div class="bg-white rounded-[28px] p-3 sm:p-4 border border-[#E4E7FF] overflow-x-auto">
+                <div class="min-w-[720px] grid grid-cols-7 gap-4 text-sm">
+
+                  <div class="text-center text-gray-500 font-medium">Sun</div>
+                  <div class="text-center text-gray-500 font-medium">Mon</div>
+                  <div class="text-center text-gray-500 font-medium">Tue</div>
+                  <div class="text-center text-gray-500 font-medium">Wed</div>
+                  <div class="text-center text-gray-500 font-medium">Thu</div>
+                  <div class="text-center text-gray-500 font-medium">Fri</div>
+                  <div class="text-center text-gray-500 font-medium">Sat</div>
+
+                  <div class="h-32 border rounded-xl flex flex-col p-2 text-xs text-gray-500">
+                    <span class="font-semibold text-gray-700 mb-1">9</span>
+                    <span>No events</span>
+                  </div>
+                  <div class="h-32 border rounded-xl flex flex-col p-2 text-xs text-gray-500">
+                    <span class="font-semibold text-gray-700 mb-1">10</span>
+                    <span>No events</span>
+                  </div>
+                  <div class="h-32 border rounded-xl flex flex-col p-2 text-xs text-gray-500">
+                    <span class="font-semibold text-gray-700 mb-1">11</span>
+                    <span>No events</span>
+                  </div>
+                  <div class="h-32 border rounded-xl flex flex-col p-2 text-xs text-gray-500">
+                    <span class="font-semibold text-gray-700 mb-1">12</span>
+                    <span>No events</span>
+                  </div>
+
+                  <div class="h-32 border-2 border-[#2F55FF] rounded-xl flex flex-col p-2 text-xs">
+                    <div class="flex justify-end">
+                      <span class="bg-[#2F55FF] text-white rounded-full text-[10px] px-2 py-[1px]">13</span>
+                    </div>
+                    <span class="mt-1 bg-pink-100 text-pink-700 px-2 py-[2px] rounded-lg text-[10px]">
+                      5:00 PM · Arts & Culture
+                    </span>
+                  </div>
+
+                  <div class="h-32 border rounded-xl p-2 text-xs">
+                    <span class="font-semibold text-gray-700">14</span>
+                    <span class="mt-1 bg-blue-100 text-blue-700 px-2 py-[2px] rounded-lg text-[10px] block">
+                      7:00 AM · Sports
+                    </span>
+                  </div>
+
+                  <div class="h-32 border rounded-xl p-2 text-xs">
+                    <span class="font-semibold text-gray-700">15</span>
+                    <span class="mt-1 bg-purple-100 text-purple-700 px-2 py-[2px] rounded-lg text-[10px] block">
+                      2:00 PM · Technology
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ---------- DAY VIEW ---------- -->
+          <div id="viewDay" class="hidden">
+            <div class="bg-[#F4F4FF] rounded-b-[32px] p-3 sm:p-5 shadow-sm border-x border-b border-[#E4E7FF]">
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Time slots -->
+                <article class="lg:col-span-2 bg-white rounded-3xl shadow p-5 sm:p-6 border border-[#E4E7FF]">
+                  <h3 class="font-semibold mb-4 text-gray-700">November 13, 2025</h3>
+
+                  <div class="space-y-4 text-gray-500 text-sm">
+                    <p>5:00 AM</p>
+                    <p>6:00 AM</p>
+                    <p>7:00 AM</p>
+                    <p>8:00 AM</p>
+                    <p>9:00 AM</p>
+                    <p>10:00 AM</p>
+                    <p>11:00 AM</p>
+                    <p>12:00 PM</p>
+                    <p>1:00 PM</p>
+                    <p>2:00 PM</p>
+                    <p>3:00 PM</p>
+                    <p>4:00 PM</p>
+                    <p>5:00 PM</p>
+                  </div>
+                </article>
+
+                <!-- Events today -->
+                <aside class="bg-white rounded-3xl shadow p-5 sm:p-6 border border-[#E4E7FF]">
+                  <h3 class="font-semibold mb-3">Events Today</h3>
+
+                  <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-xl text-sm mb-6">
+                    <p class="font-medium text-gray-800">Contemporary Art Exhibition</p>
+                    <p class="text-gray-500 text-xs">5:00 PM</p>
+                    <p class="text-gray-400 text-[11px] mt-1">Category: Arts & Culture</p>
+                  </div>
+
+                  <h3 class="font-semibold mb-3">Quick Stats</h3>
+
+                  <div class="text-sm text-gray-700 space-y-1">
+                    <p>
+                      Total events
+                      <span class="float-right">9</span>
+                    </p>
+                    <p>
+                      Live days
+                      <span class="float-right">9</span>
+                    </p>
+                  </div>
+                </aside>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Categories sous le calendrier -->
+          <section class="mt-6">
+            <p class="text-sm font-semibold text-gray-700 mb-3 ml-3 mt-3">
+              Event Categories
+            </p>
+
+            <div class="mt-3 flex flex-wrap items-center gap-3 text-sm">
+
+              <span class="px-4 py-1.5 rounded-full 
+                           bg-gradient-to-r from-[#B5DAFF] to-[#D6EAFF] 
+                           text-[#1E6FD9] border border-[#7FB7FF] shadow-sm">
+                Technology
+              </span>
+
+              <span class="px-4 py-1.5 rounded-full 
+                           bg-gradient-to-r from-[#FBC2D9] to-[#FDE1EB] 
+                           text-[#C0255F] border border-[#F28AB2] shadow-sm">
+                Arts & Culture
+              </span>
+
+              <span class="px-4 py-1.5 rounded-full 
+                           bg-gradient-to-r from-[#C2E3FF] to-[#DFF1FF] 
+                           text-[#2A8DCF] border border-[#96CCFF] shadow-sm">
+                Sports
+              </span>
+
+              <span class="px-4 py-1.5 rounded-full 
+                           bg-gradient-to-r from-[#E0C8FF] to-[#F2E6FF] 
+                           text-[#7A35C7] border border-[#C6A1FF] shadow-sm">
+                Science
+              </span>
+
+              <span class="px-4 py-1.5 rounded-full 
+                           bg-gradient-to-r from-[#C3F5C3] to-[#E0FFE0] 
+                           text-[#2A8A2A] border border-[#8FDC8F] shadow-sm">
+                Volunteering
+              </span>
+
+              <span class="px-4 py-1.5 rounded-full 
+                           bg-gradient-to-r from-[#FFE9A8] to-[#FFF4D2] 
+                           text-[#C48B00] border border-[#FFDD66] shadow-sm">
+                Cultural
+              </span>
+
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ========== RIGHT COLUMN : TASKS + AI ========== -->
+        <aside class="space-y-6">
+
+          <!-- TASKS BOARD -->
+          <section class="bg-white rounded-3xl shadow-md p-6">
+
+            <!-- Titre + Search -->
+            <div class="flex items-center justify-between gap-4 mb-6">
+              <h3 class="font-semibold text-xl text-gray-900">
+                Tasks Board
+              </h3>
+
+              <div
+                class="flex items-center bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm w-full max-w-xs">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs mr-2"></i>
+                <input id="taskSearch" type="text" placeholder="Search task..."
+                  class="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent" />
+              </div>
+            </div>
+
+            <!-- Add task + select + bouton -->
+            <div class="flex items-center gap-3 mb-6">
+              <input id="taskInput" type="text" placeholder="Add a new task..."
+                class="flex-1 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm text-sm outline-none placeholder-gray-400" />
+
+              <select id="taskStatus"
+                class="bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm text-sm outline-none text-gray-700">
+                <option value="todo">To Do</option>
+                <option value="inprogress">In Progress</option>
+                <option value="done">Done</option>
+              </select>
+
+              <button id="addTaskBtn"
+                class="w-10 h-10 rounded-full flex items-center justify-center text-white text-xl shadow-md bg-[#D6512B]">
+                +
+              </button>
+            </div>
+
+            <!-- LISTES -->
+            <div class="flex flex-col gap-5 mt-2">
+
+              <div
+                class="bg-white border border-gray-200 rounded-2xl px-4 py-4 shadow-sm flex flex-col">
+                <h4 class="font-semibold text-[#FF0000] text-sm mb-2 text-left">
+                  To Do
+                </h4>
+                <div id="todoList" class="flex flex-col gap-2">
+                  <p class="text-[#999999] text-sm text-center empty-message">
+                    No tasks here.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="bg-white border border-gray-200 rounded-2xl px-4 py-4 shadow-sm flex flex-col">
+                <h4 class="font-semibold text-yellow-500 text-sm mb-2 text-left">
+                  In Progress
+                </h4>
+                <div id="inProgressList" class="flex flex-col gap-2">
+                  <p class="text-[#999999] text-sm text-center empty-message">
+                    No tasks here.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                class="bg-white border border-gray-200 rounded-2xl px-4 py-4 shadow-sm flex flex-col">
+                <h4 class="font-semibold text-green-600 text-sm mb-2 text-left">
+                  Done
+                </h4>
+                <div id="doneList" class="flex flex-col gap-2">
+                  <p class="text-[#999999] text-sm text-center empty-message">
+                    No tasks here.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- AI ASSISTANT -->
+          <section class="bg-white rounded-3xl shadow-md overflow-hidden w-full">
+
+            <div class="bg-gradient-to-r from-[#BB7221] via-[#8A1B21] to-[#6F1425] 
+              px-5 py-3 flex items-center gap-2">
+              <span class="w-6 h-6 flex items-center justify-center rounded-md bg-white/10">
+                <i class="fa-solid fa-robot text-white text-xs"></i>
+              </span>
+              <h3 class="font-semibold text-white text-sm">AI Assistant</h3>
+            </div>
+
+            <div class="p-5 bg-white mb-64">
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-robot text-[#8A1B21] text-sm mt-1"></i>
+                <div class="bg-[#FBEAEA] border border-red-200 px-4 py-3 rounded-2xl 
+                  text-sm text-[#8A1B21] shadow-sm">
+                  <p>Hello! How can I assist you today?</p>
+                  <p class="mt-1">😊</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-4 pb-4 bg-white">
+              <div class="relative">
+                <input 
+                  type="text" 
+                  placeholder="Type a message..." 
+                  class="w-full bg-white border border-gray-200 px-4 pr-12 py-3 
+               rounded-full text-sm outline-none shadow-sm placeholder-gray-400"
+                >
+                <button
+                  class="absolute right-2 top-1/2 -translate-y-1/2 
+               w-9 h-9 rounded-full bg-[#D83A3A] text-white 
+               flex items-center justify-center shadow-md">
+                  <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+          </section>
+
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="w-full bg-[#6F1425] text-white mt-16">
+    <div class="max-w-[1500px] mx-auto relative px-8 md:px-16 pt-14 pb-8">
+
+      <div class="flex flex-col md:flex-row gap-16 justify-between">
+
+        <div class="w-full md:w-1/3">
+
+          <div class="flex items-center gap-3 mb-4">
+             <div class="flex items-center gap-3">
+        <div class="flex items-center">
+          <img src="logo.png" class="h-14 object-contain" alt="Logo">
+        </div>
+      </div>
+            
+          </div>
+
+          <p class="text-[14px] text-white/85 max-w-sm">
+            Connecting students with amazing clubs and communities at ESPRIT University.
+          </p>
+
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 w-full md:w-2/3 text-[14px]">
+
+          <div>
+            <h4 class="font-semibold mb-3">About</h4>
+            <ul class="space-y-2 text-white/80">
+              <li>Our Story</li>
+              <li>Team</li>
+              <li>Careers</li>
+              <li>Press</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-3">Contact</h4>
+            <ul class="space-y-2 text-white/80">
+              <li>Support</li>
+              <li>Feedback</li>
+              <li>Partnerships</li>
+              <li>Media</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-3">Legal</h4>
+            <ul class="space-y-2 text-white/80">
+              <li>Terms of Service</li>
+              <li>Privacy Policy</li>
+              <li>Cookie Policy</li>
+              <li>Guidelines</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="mt-10 pt-3 border-t border-white/25 flex items-center justify-between text-[12px] text-white/75">
+
+        <p>© 2025 Clubs ESPRIT. All rights reserved.</p>
+
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    /* TABS Month / Week / Day */
+    const tabMonth = document.getElementById("tabMonth");
+    const tabWeek = document.getElementById("tabWeek");
+    const tabDay = document.getElementById("tabDay");
+
+    const viewMonth = document.getElementById("viewMonth");
+    const viewWeek = document.getElementById("viewWeek");
+    const viewDay = document.getElementById("viewDay");
+
+    function resetTabs() {
+      [tabMonth, tabWeek, tabDay].forEach(btn => {
+        btn.classList.remove("bg-[#2F55FF]", "text-white");
+        btn.classList.add("text-gray-500");
+      });
+    }
+
+    function hideViews() {
+      viewMonth.classList.add("hidden");
+      viewWeek.classList.add("hidden");
+      viewDay.classList.add("hidden");
+    }
+
+    tabMonth.onclick = () => {
+      resetTabs();
+      hideViews();
+      tabMonth.classList.add("bg-[#2F55FF]", "text-white");
+      viewMonth.classList.remove("hidden");
+    };
+
+    tabWeek.onclick = () => {
+      resetTabs();
+      hideViews();
+      tabWeek.classList.add("bg-[#2F55FF]", "text-white");
+      viewWeek.classList.remove("hidden");
+    };
+
+    tabDay.onclick = () => {
+      resetTabs();
+      hideViews();
+      tabDay.classList.add("bg-[#2F55FF]", "text-white");
+      viewDay.classList.remove("hidden");
+    };
+
+    /* MOBILE MENU */
+    const openMenuBtn = document.getElementById("openMenu");
+    const closeMenuBtn = document.getElementById("closeMenu");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const mobileBackdrop = document.getElementById("mobileBackdrop");
+
+    function openMenu() {
+      mobileBackdrop.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        mobileMenu.classList.remove("translate-x-full");
+      });
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.add("translate-x-full");
+      setTimeout(() => {
+        mobileBackdrop.classList.add("hidden");
+      }, 200);
+    }
+
+    openMenuBtn?.addEventListener("click", openMenu);
+    closeMenuBtn?.addEventListener("click", closeMenu);
+    mobileBackdrop?.addEventListener("click", (e) => {
+      if (e.target === mobileBackdrop) closeMenu();
+    });
+
+    /* Tasks board JS (inchangé) */
+    const taskInput = document.getElementById("taskInput");
+    const taskStatus = document.getElementById("taskStatus");
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    const taskSearch = document.getElementById("taskSearch");
+
+    const lists = {
+      todo: document.getElementById("todoList"),
+      inprogress: document.getElementById("inProgressList"),
+      done: document.getElementById("doneList")
+    };
+
+    function createTaskElement(text) {
+      const div = document.createElement("div");
+      div.className =
+        "task-item text-sm text-gray-800 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 flex justify-between items-center";
+      div.dataset.title = text.toLowerCase();
+
+      const span = document.createElement("span");
+      span.textContent = text;
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "×";
+      delBtn.className = "text-xs text-gray-400 hover:text-red-500 ml-3";
+      delBtn.addEventListener("click", () => {
+        div.remove();
+        updateEmptyMessages();
+      });
+
+      div.appendChild(span);
+      div.appendChild(delBtn);
+      return div;
+    }
+
+    function updateEmptyMessages() {
+      Object.values(lists).forEach(list => {
+        const emptyMsg = list.querySelector(".empty-message");
+        const hasTasks = list.querySelectorAll(".task-item").length > 0;
+        if (emptyMsg) emptyMsg.style.display = hasTasks ? "none" : "block";
+      });
+    }
+
+    addTaskBtn?.addEventListener("click", () => {
+      const text = taskInput.value.trim();
+      const status = taskStatus.value;
+      if (!text) return;
+
+      const taskEl = createTaskElement(text);
+      lists[status].appendChild(taskEl);
+
+      taskInput.value = "";
+      updateEmptyMessages();
+    });
+
+    taskInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") addTaskBtn.click();
+    });
+
+    taskSearch?.addEventListener("input", () => {
+      const q = taskSearch.value.toLowerCase().trim();
+      document.querySelectorAll(".task-item").forEach(item => {
+        const title = item.dataset.title;
+        item.style.display = title.includes(q) ? "flex" : "none";
+      });
+    });
+
+    updateEmptyMessages();
+  </script>
+
+</body>
+</html>
